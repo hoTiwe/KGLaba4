@@ -7,4 +7,14 @@ namespace KGLaba4
             InitializeComponent();
         }
     }
+
+    public partial class Image {
+    }
+    public class Layout{
+        public
+        Color color = null;
+        List<Point> outlinePoint = new List<Point>();   
+        List<Point> innerPoint = new List<Point>();   
+
+    }
 }
