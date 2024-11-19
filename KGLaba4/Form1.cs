@@ -38,16 +38,115 @@ namespace KGLaba4
 
         public void paintLayout(Layout layout)
         {
-            for (int i = 0; i < layout.outlinePointVisable.Count(); i++)
+            int avgX = 0; int avgY = 0;
+            List<Point> outline = new List<Point>();
+            for (int i = 0; i < layout.vertexsVisable.Count; i++)
             {
-                graphics.FillRectangle(new SolidBrush(layout.colorOutline), layout.outlinePointVisable[i].X * scale, layout.outlinePointVisable[i].Y * scale, scale, scale);
+                var start = layout.vertexsVisable[i];
+                avgX += start.X;
+                avgY += start.Y;
+
+                var end = layout.vertexsVisable[(i + 1) % layout.vertexsVisable.Count];
+                outline.AddRange(GetLineBrezenthema(start.X, start.Y, end.X, end.Y));
+            }
+            avgX /= layout.vertexsVisable.Count;
+            avgY /= layout.vertexsVisable.Count;
+
+            List<Point> inner = FillInner(outline, new Point(avgX, avgY));
+
+            for (int i = 0; i < outline.Count(); i++)
+            {
+                graphics.FillRectangle(new SolidBrush(layout.colorOutline), outline[i].X * scale, outline[i].Y * scale, scale, scale);
             }
 
-            for (int i = 0; i < layout.innerPointVisable.Count(); i++)
+            for (int i = 0; i < inner.Count(); i++)
             {
-                graphics.FillRectangle(new SolidBrush(layout.colorInner), layout.innerPointVisable[i].X * scale, layout.innerPointVisable[i].Y * scale, scale, scale);
+                graphics.FillRectangle(new SolidBrush(layout.colorInner), inner[i].X * scale, inner[i].Y * scale, scale, scale);
             }
         }
+
+
+        private List<Point> GetLineBrezenthema(int x1, int y1, int x2, int y2)
+        {
+            List<Point> outlinePoint = new List<Point>();
+
+            int dx = Math.Abs(x2 - x1);
+            int dy = Math.Abs(y2 - y1);
+
+            int sx = x1 < x2 ? 1 : -1;
+            int sy = y1 < y2 ? 1 : -1;
+            int x = x1, y = y1;
+            int err = dx - dy;
+
+            int k = 0;
+            while (true)
+            {
+                outlinePoint.Add(new Point(x, y));
+
+                if (x == x2 && y == y2) break;
+
+                int e2 = 2 * err;
+
+                if (e2 > -dy)
+                {
+                    err -= dy;
+                    x += sx;
+                }
+
+                if (e2 < dx)
+                {
+                    err += dx;
+                    y += sy;
+                }
+
+                if (k > 1000000)
+                {
+                    break;
+                }
+            }
+            return outlinePoint;
+        }
+
+        public List<Point> FillInner(List<Point> outlinePoint, Point seedPixel)
+        {
+            List<Point> innerPoint = new List<Point>();
+
+            var stack = new Stack<Point>();
+            stack.Push(seedPixel);
+
+            // ¬осьмисв€зные направлени€
+            var directions = new List<(int dx, int dy)>
+            {
+                (1, 0), (0, 1), (-1, 0), (0, -1),   // основные направлени€
+            };
+
+            while (stack.Count > 0)
+            {
+                var currentPixel = stack.Pop();
+
+                // ѕропускаем, если пиксель уже закрашен или €вл€етс€ частью контура
+                if (innerPoint.FindIndex(0, (pixel) => currentPixel == pixel) != -1 || outlinePoint.FindIndex(0, (pixel) => currentPixel == pixel) != -1)
+                    continue;
+
+                // ƒобавл€ем пиксель в список закрашенных
+                innerPoint.Add(currentPixel);
+
+                // ƒобавл€ем соседние пиксели по всем 8 направлени€м
+                foreach (var (dx, dy) in directions)
+                {
+                    int newX = currentPixel.X + dx;
+                    int newY = currentPixel.Y + dy;
+                    var adjacentPixel = new Point(newX, newY);
+
+                    if (innerPoint.FindIndex(0, (pixel) => adjacentPixel == pixel) == -1 && outlinePoint.FindIndex(0, (pixel) => adjacentPixel == pixel) == -1)
+                    {
+                        stack.Push(adjacentPixel);
+                    }
+                }
+            }
+            return innerPoint;
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -96,110 +195,17 @@ namespace KGLaba4
     public class Layout{
         public Color colorInner;
         public Color colorOutline;
-        List<Point> outlinePoint = new List<Point>();
-        List<Point> innerPoint = new List<Point>();
-        public List<Point> outlinePointVisable;
-        public List<Point> innerPointVisable;
+        public List<Point> vertexs;
+        public List<Point> vertexsVisable;
 
-        public Layout(Color inner, Color outline, List<Point> vertexs)
+        public Layout(Color inner, Color outline, List<Point> _vertexs)
         {
+            vertexs = _vertexs;
+            vertexsVisable = new List<Point>(_vertexs);
+
             colorInner = inner;
             colorOutline = outline;
-            int avgX = 0; int avgY = 0;
-
-            for (int i = 0; i < vertexs.Count; i++)
-            {
-                var start = vertexs[i];
-                avgX += start.X;
-                avgY += start.Y;
-
-                var end = vertexs[(i + 1) % vertexs.Count];
-                GetLineBrezenthema(start.X, start.Y, end.X, end.Y);
-            }
-            avgX /= vertexs.Count;
-            avgY /= vertexs.Count;
-
-            FillInner(new Point(avgX, avgY));
-            outlinePointVisable = new List<Point>(outlinePoint);
-            innerPointVisable = new List<Point>(innerPoint);
-        }
-
-        private void GetLineBrezenthema(int x1, int y1, int x2, int y2)
-        {
-            int dx = Math.Abs(x2 - x1);
-            int dy = Math.Abs(y2 - y1);
-
-            int sx = x1 < x2 ? 1 : -1;
-            int sy = y1 < y2 ? 1 : -1;
-            int x = x1, y = y1;
-            int err = dx - dy;
-
-            int k = 0;
-            while (true)
-            {
-                outlinePoint.Add(new Point(x, y));
-
-                if (x == x2 && y == y2) break;
-
-                int e2 = 2 * err;
-
-                if (e2 > -dy)
-                {
-                    err -= dy;
-                    x += sx;
-                }
-
-                if (e2 < dx)
-                {
-                    err += dx;
-                    y += sy;
-                }
-
-                if (k > 1000000)
-                {
-                    break;
-                }
-            }
-        }
-
-        public void FillInner(Point seedPixel)
-        {
-            var stack = new Stack<Point>();
-            stack.Push(seedPixel);
-
-            // ¬осьмисв€зные направлени€
-            var directions = new List<(int dx, int dy)>
-            {
-                (1, 0), (0, 1), (-1, 0), (0, -1),   // основные направлени€
-            };
-
-            while (stack.Count > 0)
-            {
-                var currentPixel = stack.Pop();
-
-                // ѕропускаем, если пиксель уже закрашен или €вл€етс€ частью контура
-                if (innerPoint.FindIndex(0, (pixel) => currentPixel == pixel) != -1 || outlinePoint.FindIndex(0, (pixel) => currentPixel == pixel) != -1)
-                    continue;
-
-                // ƒобавл€ем пиксель в список закрашенных
-                innerPoint.Add(currentPixel);
-
-                // ƒобавл€ем соседние пиксели по всем 8 направлени€м
-                foreach (var (dx, dy) in directions)
-                {
-                    int newX = currentPixel.X + dx;
-                    int newY = currentPixel.Y + dy;
-                    var adjacentPixel = new Point(newX, newY);
-
-                    if (innerPoint.FindIndex(0, (pixel) => adjacentPixel == pixel) == -1 && outlinePoint.FindIndex(0, (pixel) => adjacentPixel == pixel) == -1)
-                    {
-                        stack.Push(adjacentPixel);
-                    }
-                }
-
-               
-            }
-        }
+        }      
 
     }
 }
