@@ -38,6 +38,7 @@ namespace KGLaba4
 
         public void paintLayout(Layout layout)
         {
+            Console.WriteLine("Paint " + layout.colorInner);
             int avgX = 0; int avgY = 0;
             List<Point> outline = new List<Point>();
             for (int i = 0; i < layout.vertexsVisable.Count; i++)
@@ -174,6 +175,12 @@ namespace KGLaba4
         {
             if (index == -1) layouts.Add(layout);
             else layouts.Insert(index, layout);
+
+            // TODO: переделать с добавление по индексу (заслонять только слои под ним
+            for (int i = layouts.Count - 1; i > 0; i--)
+            {
+                layouts[i].Notificate(layout);
+            }
         }
 
         public void Remove(int index)
@@ -205,7 +212,11 @@ namespace KGLaba4
 
             colorInner = inner;
             colorOutline = outline;
-        }      
+        }
 
+        public void Notificate(Layout layout)
+        {
+            Console.WriteLine("Notificate " + colorInner);
+        }
     }
 }
