@@ -21,19 +21,17 @@ namespace KGLaba4
             List<Point> l1 = new List<Point>
         {
             new Point(5, 5),
-            new Point(20, 11),
-            new Point(35, 5),
-            new Point(29, 20),
-            new Point(24, 40),
-            new Point(9, 35)
+            new Point(20, 5),
+            new Point(20, 20),
+
+            new Point(5, 20),
         };
 
             List<Point> l2 = new List<Point>
         {
-            new Point(10, 10),
-            new Point(30, 10),
-            new Point(30, 30),
-            new Point(10, 30)
+            new Point(3, 30),
+            new Point(20, 1),
+            new Point(40, 30),
         };
             List<Point> l3 = new List<Point>
         {
@@ -94,7 +92,7 @@ namespace KGLaba4
 
                 graphics.FillRectangle(new SolidBrush(layout.colorOutline), outline[i].X * scale, outline[i].Y * scale, scale, scale);
             }
-            for (int i = 0; i < layout.vertexsInvisable.Count; i++)
+            /*for (int i = 0; i < layout.vertexsInvisable.Count; i++)
             {
                 Point curre = inner[i];
                 bool need = needVisable(layout, curre);
@@ -103,9 +101,8 @@ namespace KGLaba4
                     continue;
                 }
                 for (int j = 0; j < layout.vertexsInvisable[i].Count; j++) 
-                graphics.FillRectangle(new SolidBrush(Color.Blue), layout.vertexsInvisable[i][j].X * scale, layout.vertexsInvisable[i][j].Y * scale, scale, scale);
 
-            }
+            }*/
             
             for (int i = 0; i < inner.Count(); i++)
             {
@@ -231,7 +228,7 @@ namespace KGLaba4
                 float x2 = polygon[j].X, y2 = polygon[j].Y;
 
                 // Проверяем, пересекает ли горизонтальная линия, проходящая через точку (p.X, p.Y), ребро многоугольника
-                if (((y1 <= p.Y && p.Y < y2) || (y2 <= p.Y && p.Y < y1)) &&
+                if (((y1 <= p.Y && p.Y <= y2) || (y2 <= p.Y && p.Y <= y1)) &&
                     ((y2 - y1) != 0) &&
                     (p.X > ((x2 - x1) * (p.Y - y1) / (y2 - y1) + x1)))
                 {
