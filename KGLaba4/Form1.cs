@@ -18,11 +18,38 @@ namespace KGLaba4
             InitializeComponent();
             image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(40, 0), new Point(40, 40), new Point(0, 40) }));
 
-            Layout layout1 = new Layout(Color.Red, Color.Black, new List<Point> { new Point(1, 1), new Point(21, 1), new Point(10, 20) });
-            image.Add(layout1);
+            List<Point> l1 = new List<Point>
+        {
+            new Point(5, 5),
+            new Point(20, 11),
+            new Point(35, 5),
+            new Point(29, 20),
+            new Point(24, 40),
+            new Point(9, 35)
+        };
 
-            Layout layout2 = new Layout(Color.Green, Color.Black, new List<Point> { new Point(1, 20), new Point(21, 20), new Point(10, 1) });
+            List<Point> l2 = new List<Point>
+        {
+            new Point(10, 10),
+            new Point(30, 10),
+            new Point(30, 30),
+            new Point(10, 30)
+        };
+            List<Point> l3 = new List<Point>
+        {
+            new Point(5, 30),
+            new Point(30, 5),
+            new Point(35, 30),
+        };
+
+
+            Layout layout1 = new Layout(Color.Red, Color.Black, l1);
+            image.Add(layout1);
+            Layout layout2 = new Layout(Color.Green, Color.Black, l2);
             image.Add(layout2);
+            Layout layout3 = new Layout(Color.Blue, Color.Black, l3);
+            //image.Add(layout3);
+            Console.WriteLine("In polygon " + needVisable(layout2, new Point(17, 10)));
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -41,27 +68,48 @@ namespace KGLaba4
             Console.WriteLine("Paint " + layout.colorInner);
             int avgX = 0; int avgY = 0;
             List<Point> outline = new List<Point>();
-            for (int i = 0; i < layout.vertexsVisable.Count; i++)
+            
+            for (int i = 0; i < layout.vertexs.Count; i++)
             {
-                var start = layout.vertexsVisable[i];
-                avgX += start.X;
-                avgY += start.Y;
+                var start = layout.vertexs[i];
+                avgX += (int) start.X;
+                avgY += (int) start.Y;
 
-                var end = layout.vertexsVisable[(i + 1) % layout.vertexsVisable.Count];
-                outline.AddRange(GetLineBrezenthema(start.X, start.Y, end.X, end.Y));
+                var end = layout.vertexs[(i + 1) % layout.vertexs.Count];
+                outline.AddRange(GetLineBrezenthema((int)start.X, (int)start.Y, (int)end.X, (int)end.Y));
             }
-            avgX /= layout.vertexsVisable.Count;
-            avgY /= layout.vertexsVisable.Count;
+            avgX /= layout.vertexs.Count;
+            avgY /= layout.vertexs.Count;
 
             List<Point> inner = FillInner(outline, new Point(avgX, avgY));
 
             for (int i = 0; i < outline.Count(); i++)
             {
+                Point curre = outline[i];
+                bool need = needVisable(layout, curre);
+                Console.WriteLine($"({curre.X};{curre.Y}) - {need}");
+                if (!need) { 
+                    continue;
+                }
+
                 graphics.FillRectangle(new SolidBrush(layout.colorOutline), outline[i].X * scale, outline[i].Y * scale, scale, scale);
             }
+            for (int i = 0; i < layout.vertexsInvisable.Count; i++)
+            {
+                Point curre = inner[i];
+                bool need = needVisable(layout, curre);
+                if (!need)
+                {
+                    continue;
+                }
+                for (int j = 0; j < layout.vertexsInvisable[i].Count; j++) 
+                graphics.FillRectangle(new SolidBrush(Color.Blue), layout.vertexsInvisable[i][j].X * scale, layout.vertexsInvisable[i][j].Y * scale, scale, scale);
 
+            }
+            
             for (int i = 0; i < inner.Count(); i++)
             {
+                if (!needVisable(layout, inner[i])) { continue; }
                 graphics.FillRectangle(new SolidBrush(layout.colorInner), inner[i].X * scale, inner[i].Y * scale, scale, scale);
             }
         }
@@ -160,6 +208,96 @@ namespace KGLaba4
             pictureBox1.Image = bitmap;
 
         }
+
+        public static bool needVisable(Layout polygon, Point point)
+        {
+            for (int i = 0; i < polygon.vertexsInvisable.Count; i++)
+            {
+                if (PnPoly(polygon.vertexsInvisable[i], point)) return false;
+            }
+            return true;
+        }
+
+        public static bool PnPoly(List<Point> polygon, Point p)
+        {
+            bool c = false;
+            int npol = polygon.Count;
+            int j = npol - 1;  // Индекс предыдущей вершины (для первой итерации)
+
+            for (int i = 0; i < npol; j = i++)
+            {
+                // Получаем координаты вершин многоугольника
+                float x1 = polygon[i].X, y1 = polygon[i].Y;
+                float x2 = polygon[j].X, y2 = polygon[j].Y;
+
+                // Проверяем, пересекает ли горизонтальная линия, проходящая через точку (p.X, p.Y), ребро многоугольника
+                if (((y1 <= p.Y && p.Y < y2) || (y2 <= p.Y && p.Y < y1)) &&
+                    ((y2 - y1) != 0) &&
+                    (p.X > ((x2 - x1) * (p.Y - y1) / (y2 - y1) + x1)))
+                {
+                    c = !c;  // Переключаем состояние переменной c
+                }
+            }
+            return c;  // Возвращаем, лежит ли точка внутри многоугольника
+        }
+
+        private static bool Inside(Point p, Point cp1, Point cp2)
+        {
+            return (cp2.X - cp1.X) * (p.Y - cp1.Y) > (cp2.Y - cp1.Y) * (p.X - cp1.X);
+        }
+
+        // ������� ����� ����������� ���� ��������
+        private static Point Intersection(Point s, Point e, Point cp1, Point cp2)
+        {
+            float dcX = cp1.X - cp2.X;
+            float dcY = cp1.Y - cp2.Y;
+            float dpX = s.X - e.X;
+            float dpY = s.Y - e.Y;
+
+            float n1 = cp1.X * cp2.Y - cp1.Y * cp2.X;
+            float n2 = s.X * e.Y - s.Y * e.X;
+            float n3 = 1.0f / (dcX * dpY - dcY * dpX);
+
+            float ix = (n1 * dpX - n2 * dcX) * n3;
+            float iy = (n1 * dpY - n2 * dcY) * n3;
+
+            return new Point((int)ix, (int)iy);
+        }
+
+        // �������� ����� ���������
+        public static List<Point> Clip(List<Point> subjectPolygon, List<Point> clipPolygon)
+        {
+            List<Point> outputList = new List<Point>(subjectPolygon);
+            Point cp1 = clipPolygon[clipPolygon.Count - 1];
+
+            foreach (Point cp2 in clipPolygon)
+            {
+                List<Point> inputList = new List<Point>(outputList);
+                outputList.Clear();
+
+                Point s = inputList[inputList.Count - 1];
+                foreach (Point e in inputList)
+                {
+                    if (Inside(e, cp1, cp2))
+                    {
+                        if (!Inside(s, cp1, cp2))
+                        {
+                            outputList.Add(Intersection(s, e, cp1, cp2));
+                        }
+                        outputList.Add(e);
+                    }
+                    else if (Inside(s, cp1, cp2))
+                    {
+                        outputList.Add(Intersection(s, e, cp1, cp2));
+                    }
+                    s = e;
+                }
+
+                cp1 = cp2;
+            }
+
+            return outputList;
+        }
     }
 
     public partial class Image {
@@ -177,7 +315,7 @@ namespace KGLaba4
             else layouts.Insert(index, layout);
 
             // TODO: ���������� � ���������� �� ������� (��������� ������ ���� ��� ���
-            for (int i = layouts.Count - 1; i > 0; i--)
+            for (int i = layouts.Count - 2; i >= 0; i--)
             {
                 layouts[i].Notificate(layout);
             }
@@ -203,12 +341,11 @@ namespace KGLaba4
         public Color colorInner;
         public Color colorOutline;
         public List<Point> vertexs;
-        public List<Point> vertexsVisable;
+        public List<List<Point>> vertexsInvisable = new List<List<Point>>();
 
         public Layout(Color inner, Color outline, List<Point> _vertexs)
         {
             vertexs = _vertexs;
-            vertexsVisable = new List<Point>(_vertexs);
 
             colorInner = inner;
             colorOutline = outline;
@@ -217,6 +354,10 @@ namespace KGLaba4
         public void Notificate(Layout layout)
         {
             Console.WriteLine("Notificate " + colorInner);
+            List<Point> list = new List<Point>();
+            Form1.Clip(vertexs, layout.vertexs).ForEach((item) => list.Add(new Point(item.X, item.Y)));
+            vertexsInvisable.Add(list);
+
         }
     }
 }
