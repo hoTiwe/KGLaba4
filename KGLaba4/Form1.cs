@@ -12,6 +12,10 @@ namespace KGLaba4
         Graphics graphics;
         int currentLayout = 0;
         int scale = 3;
+        int offsetX = 20, offsetY = -10;
+
+        private bool axesVisible = false;
+        private bool gridVisible = false;
 
         public Form1()
         {
@@ -306,7 +310,7 @@ namespace KGLaba4
             image.Add(layout25);
             Layout layout26 = new Layout(Color.Black, Color.Black, l26);
             image.Add(layout26);
-            
+
             Layout layout27 = new Layout(Color.White, Color.Black, l27);
             image.Add(layout27);
 
@@ -337,18 +341,89 @@ namespace KGLaba4
                 needInit = false;
             }
         }
+        private void DrawAxes(Graphics graphics, int width, int height, int scale)
+        {
+            // Центр для отрисовки
+            int centerX = offsetX;
+            int centerY = offsetY;
+
+            Pen axisPen = new Pen(Color.Black, 1);
+            Pen recPen = new Pen(Color.Black, 2);
+
+            graphics.DrawLine(axisPen, offsetX, centerY, width, centerY);
+
+            graphics.DrawLine(axisPen, centerX, offsetY, centerX, height);
+
+            graphics.DrawRectangle(recPen, 0, 0, width - 2, height - 2);
+        }
+
+        private void btnDrawAxes_Click(object sender, EventArgs e)
+        {
+            axesVisible = !axesVisible;
+
+            if (axesVisible)
+            {
+                DrawAxes(graphics, pictureBox1.Width, pictureBox1.Height, scale);
+                button1.Text = "Скрыть оси";
+            }
+            else
+            {
+                graphics.Clear(Color.White); // Очистить графику
+                currentLayout = 0;
+                button1.Text = "Показать оси";
+            }
+
+            pictureBox1.Image = bitmap;
+        }
+
+        private void DrawGrid(Graphics graphics, int width, int height, int scale)
+        {
+            // Перо для линий сетки
+            Pen gridPen = new Pen(Color.Gray, 1);
+
+            // Отрисовка вертикальных линий
+            for (int x = 0; x <= width; x += scale)
+            {
+                graphics.DrawLine(gridPen, x, 0, x, height);
+            }
+
+            // Отрисовка горизонтальных линий
+            for (int y = 0; y <= height; y += scale)
+            {
+                graphics.DrawLine(gridPen, 0, y, width, y);
+            }
+        }
+
+        private void btnDrawGrid_Click(object sender, EventArgs e)
+        {
+            gridVisible = !gridVisible;
+
+            if (gridVisible)
+            {
+                DrawGrid(graphics, bitmap.Width * scale, bitmap.Height * scale, scale);
+                button2.Text = "Скрыть сетку растра";
+            }
+            else
+            {
+                graphics.Clear(Color.White); // Очистить графику
+                currentLayout = 0;
+                button2.Text = "Включить сетку растра";
+            }
+
+            pictureBox1.Image = bitmap;
+        }
 
         public void paintLayout(Layout layout)
         {
             Console.WriteLine("Paint " + layout.colorInner);
             int avgX = 0; int avgY = 0;
             List<Point> outline = new List<Point>();
-            
+
             for (int i = 0; i < layout.vertexs.Count; i++)
             {
                 var start = layout.vertexs[i];
-                avgX += (int) start.X;
-                avgY += (int) start.Y;
+                avgX += (int)start.X;
+                avgY += (int)start.Y;
 
                 var end = layout.vertexs[(i + 1) % layout.vertexs.Count];
                 outline.AddRange(GetLineBrezenthema((int)start.X, (int)start.Y, (int)end.X, (int)end.Y));
@@ -363,31 +438,20 @@ namespace KGLaba4
                 Point curre = outline[i];
                 bool need = needVisable(layout, curre);
                 Console.WriteLine($"({curre.X};{curre.Y}) - {need}");
-                if (!need) { 
-                    continue;
-                }
-
-                graphics.FillRectangle(new SolidBrush(layout.colorOutline), outline[i].X * scale, outline[i].Y * scale, scale, scale);
-            }
-            /*for (int i = 0; i < layout.vertexsInvisable.Count; i++)
-            {
-                Point curre = inner[i];
-                bool need = needVisable(layout, curre);
                 if (!need)
                 {
                     continue;
                 }
-                for (int j = 0; j < layout.vertexsInvisable[i].Count; j++) 
 
-            }*/
-            
+                graphics.FillRectangle(new SolidBrush(layout.colorOutline), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
+            }
+
             for (int i = 0; i < inner.Count(); i++)
             {
                 if (!needVisable(layout, inner[i])) { continue; }
-                graphics.FillRectangle(new SolidBrush(layout.colorInner), inner[i].X * scale, inner[i].Y * scale, scale, scale);
+                graphics.FillRectangle(new SolidBrush(layout.colorInner), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
             }
         }
-
 
         private List<Point> GetLineBrezenthema(int x1, int y1, int x2, int y2)
         {
@@ -470,7 +534,6 @@ namespace KGLaba4
             return innerPoint;
         }
 
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (currentLayout < image.GetLayoutCount())
@@ -482,6 +545,20 @@ namespace KGLaba4
             pictureBox1.Image = bitmap;
 
         }
+
+        private void textBoxSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBox1.Text, out int newInterval) && newInterval > 0)
+            {
+                timer1.Interval = newInterval;
+                Console.WriteLine($"Интервал таймера установлен на: {newInterval} мс");
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное значение интервала (положительное число).");
+            }
+        }
+
 
         public static bool needVisable(Layout polygon, Point point)
         {
@@ -574,6 +651,42 @@ namespace KGLaba4
             }
 
             return outputList;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBox2.Text, out int newScale) && newScale > 0)
+            {
+                scale = newScale;
+                graphics.Clear(Color.White); // Очистить графику
+                currentLayout = 0;
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное значение интервала (положительное число).");
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBox3.Text, out int newOffsetX) &&
+                int.TryParse(textBox4.Text, out int newOffsetY))
+            {
+                offsetX = newOffsetX;
+                offsetY = newOffsetY;
+                graphics.Clear(Color.White); // Очистить графику
+                currentLayout = 0;
+
+            }
+            else
+            {
+                MessageBox.Show("Please enter valid integers for offsets.");
+            }
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
