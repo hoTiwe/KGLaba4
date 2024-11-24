@@ -17,6 +17,7 @@ namespace KGLaba4
 
         private bool axesVisible = false;
         private bool gridVisible = false;
+        private bool isAVid = true;
 
         public Form1()
         {
@@ -24,45 +25,45 @@ namespace KGLaba4
             image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
 
 
-                        List<Point> l1 = new List<Point>
+            List<Point> l1 = new List<Point>
             {
                 new Point(13 * 5, 23 * 5),
                 new Point(20 * 5, 14 * 5),
                 new Point(20 * 5, 23 * 5),
             };
 
-                        List<Point> l2 = new List<Point>
+            List<Point> l2 = new List<Point>
             {
                 new Point(13 * 5, 23 * 5),
                 new Point(13 * 5, 13 * 5),
                 new Point(20 * 5, 14 * 5),
             };
-                        List<Point> l3 = new List<Point>
+            List<Point> l3 = new List<Point>
             {
                 new Point(4 * 5, 22 * 5),
                 new Point(13 * 5, 13 * 5),
                 new Point(13 * 5, 23 * 5),
             };
-                        List<Point> l4 = new List<Point>
+            List<Point> l4 = new List<Point>
             {
                 new Point(13 * 5, 13 * 5),
                 new Point(19 * 5, 7 * 5),
                 new Point(20 * 5, 14 * 5),
             };
 
-                        List<Point> l5 = new List<Point>
+            List<Point> l5 = new List<Point>
             {
                 new Point(13 * 5, 13 * 5),
                 new Point(17 * 5, 6 * 5),
                 new Point(19 * 5, 7 * 5),
             };
-                        List<Point> l6 = new List<Point>
+            List<Point> l6 = new List<Point>
             {
                 new Point(19 * 5, 7 * 5),
                 new Point(17 * 5, 6 * 5),
                 new Point(19 * 5, 5 * 5),
             };
-                        List<Point> l7 = new List<Point>
+            List<Point> l7 = new List<Point>
             {
                 new Point(13 * 5, 13 * 5),
                 new Point(14 * 5, 5 * 5),
@@ -70,7 +71,7 @@ namespace KGLaba4
                 new Point(17 * 5, 6 * 5),
             };
 
-                        List<Point> l8 = new List<Point>
+            List<Point> l8 = new List<Point>
             {
                 new Point(17 * 5, 6 * 5),
 
@@ -78,61 +79,61 @@ namespace KGLaba4
                 new Point(20 * 5, 5 * 5),
 
             };
-                        List<Point> l9 = new List<Point>
+            List<Point> l9 = new List<Point>
             {
                 new Point(14 * 5, 5 * 5),
                 new Point(18 * 5, 1 * 5),
                 new Point(17 * 5, 6 * 5),
             };
-                        List<Point> l10 = new List<Point>
+            List<Point> l10 = new List<Point>
             {
                 new Point(14 * 5, 5 * 5),
                 new Point(12 * 5, 4 * 5),
                 new Point(16 * 5, 4 * 5),
             };
 
-                        List<Point> l11 = new List<Point>
+            List<Point> l11 = new List<Point>
             {
                 new Point(13 * 5, 13 * 5),
                 new Point(4 * 5, 12 * 5),
                 new Point(14 * 5, 5 * 5),
             };
 
-                        List<Point> l12 = new List<Point>
+            List<Point> l12 = new List<Point>
             {
                 new Point(7 * 5, 19 * 5),
                 new Point(6 * 5, 15 * 5),
                 new Point(13 * 5, 13 * 5),
             };
 
-                        List<Point> l13 = new List<Point>
+            List<Point> l13 = new List<Point>
             {
                 new Point(7 * 5, 19 * 5),
                 new Point(4 * 5, 16 * 5),
                 new Point(6 * 5, 15 * 5),
             };
 
-                        List<Point> l14 = new List<Point>
+            List<Point> l14 = new List<Point>
             {
                 new Point(4 * 5, 16 * 5),
 
                 new Point(4 * 5, 12 * 5),
                 new Point(13 * 5, 13 * 5),
             };
-                        List<Point> l15 = new List<Point>
+            List<Point> l15 = new List<Point>
             {
                 new Point(4 * 5, 12 * 5),
                 new Point(6 * 5, 5 * 5),
                 new Point(11 * 5, 7 * 5),
             };
-                        List<Point> l16 = new List<Point>
+            List<Point> l16 = new List<Point>
             {
                 new Point(11 * 5, 7 * 5),
                 new Point(6 * 5, 5 * 5),
 
                 new Point(12 * 5, 4 * 5),
             };
-                        List<Point> l17 = new List<Point>
+            List<Point> l17 = new List<Point>
             {
                 new Point(11 * 5, 7 * 5),
                 new Point(12 * 5, 4 * 5),
@@ -140,7 +141,7 @@ namespace KGLaba4
                 new Point(14 * 5, 5 * 5),
             };
 
-                        List<Point> l18 = new List<Point>
+            List<Point> l18 = new List<Point>
             {
                 new Point(7 * 5, 5 * 5),
                 new Point(9 * 5, 2 * 5),
@@ -148,7 +149,7 @@ namespace KGLaba4
                 new Point(12 * 5, 4 * 5),
             };
 
-                        List<Point> l19 = new List<Point>
+            List<Point> l19 = new List<Point>
             {
                 new Point(16 * 5, 5 * 5 - 1),
                 new Point(18 * 5, 2 * 5),
@@ -156,7 +157,7 @@ namespace KGLaba4
                 new Point(19 * 5 - 1, 5 * 5 - 1),
             };
 
-                        List<Point> l20 = new List<Point>
+            List<Point> l20 = new List<Point>
             {
                 new Point(6 * 5, 13 * 5 + 1 ),
                 new Point(10 * 5, 13 * 5 + 1),
@@ -164,7 +165,7 @@ namespace KGLaba4
                 new Point(8 * 5, 14 * 5),
             };
 
-                        List<Point> l21 = new List<Point>
+            List<Point> l21 = new List<Point>
             {
                 new Point(5 * 5 + 1, 13 * 5 -1 ),
                 new Point(5 * 5 + 1, 11 * 5 - 1),
@@ -172,7 +173,7 @@ namespace KGLaba4
                 new Point(7 * 5 + 1, 13 * 5 - 1 ),
             };
 
-                        List<Point> l22 = new List<Point>
+            List<Point> l22 = new List<Point>
             {
                 new Point(7 * 5 + 1, 13 * 5 - 1 ),
 
@@ -180,13 +181,13 @@ namespace KGLaba4
                 new Point(10 * 5 + 1, 13 * 5 - 1),
 
             };
-                        List<Point> l23 = new List<Point>
+            List<Point> l23 = new List<Point>
             {
                 new Point(7 * 5 + 1, 13 * 5 - 1 ),
                 new Point(5 * 5 + 1, 11 * 5 - 1),
                 new Point(7 * 5 + 1, 10 * 5 - 1),
             };
-                        List<Point> l24 = new List<Point>
+            List<Point> l24 = new List<Point>
             {
                 new Point(7 * 5 + 1, 13 * 5 - 1 ),
                 new Point(7 * 5 + 1, 10 * 5 - 1),
@@ -194,13 +195,13 @@ namespace KGLaba4
                 new Point(10 * 5 + 1, 11 * 5 - 1),
             };
 
-                        List<Point> l25 = new List<Point>
+            List<Point> l25 = new List<Point>
             {
                 new Point(7 * 5 + 1, 13 * 5 - 1 ),
                 new Point(6 * 5 + 1, 11 * 5 - 1),
                 new Point(7 * 5 + 1, 10 * 5 - 1),
             };
-                        List<Point> l26 = new List<Point>
+            List<Point> l26 = new List<Point>
             {
                 new Point(7 * 5 + 1, 13 * 5 - 1 ),
                 new Point(7 * 5 + 1, 10 * 5 - 1),
@@ -208,7 +209,7 @@ namespace KGLaba4
                 new Point(8 * 5 + 1, 11 * 5 - 1),
             };
 
-                        List<Point> l27 = new List<Point>
+            List<Point> l27 = new List<Point>
             {
                 new Point(7 * 5, 9 * 5 ),
                 new Point(6 * 5, 8 * 5),
@@ -216,7 +217,7 @@ namespace KGLaba4
                 new Point(7 * 5, 7 * 5),
             };
 
-                        List<Point> l28 = new List<Point>
+            List<Point> l28 = new List<Point>
             {
                 new Point(7 * 5, 9 * 5 ),
                 new Point(7 * 5, 7 * 5),
@@ -224,7 +225,7 @@ namespace KGLaba4
                 new Point(8 * 5, 8 * 5),
             };
 
-                        List<Point> l29 = new List<Point>
+            List<Point> l29 = new List<Point>
             {
                 new Point(7 * 5 - 2, 8 * 5 ),
                 new Point(7 * 5 , 8 * 5 - 2),
@@ -232,7 +233,7 @@ namespace KGLaba4
                 new Point(8 * 5 - 2, 8 * 5),
             };
 
-                        List<Point> l30 = new List<Point>
+            List<Point> l30 = new List<Point>
             {
                 new Point(12 * 5, 10 * 5 ),
                 new Point(11 * 5, 9 * 5),
@@ -240,7 +241,7 @@ namespace KGLaba4
                 new Point(12 * 5, 8 * 5),
             };
 
-                        List<Point> l31 = new List<Point>
+            List<Point> l31 = new List<Point>
             {
                 new Point(12 * 5, 10 * 5 ),
                 new Point(12 * 5, 8 * 5),
@@ -248,7 +249,7 @@ namespace KGLaba4
                 new Point(14 * 5, 9 * 5 ),
             };
 
-                        List<Point> l32 = new List<Point>
+            List<Point> l32 = new List<Point>
             {
                 new Point(12 * 5, 9 * 5),
                 new Point(12 * 5 + 2, 9 * 5 - 2),
@@ -433,41 +434,71 @@ namespace KGLaba4
             avgY /= layout.vertexs.Count;
 
             List<Point> inner = FillInner(outline, new Point(avgX, avgY));
-
-            for (int i = 0; i < outline.Count(); i++)
+            if (isAVid)
             {
-                Point curre = outline[i];
-                if (curre.X > image.mainLayout.vertexs[2].X || curre.Y > image.mainLayout.vertexs[2].Y || curre.X < image.mainLayout.vertexs[0].X || curre.Y < image.mainLayout.vertexs[0].Y) { 
-                      continue; 
-                }
-
-                bool need = needVisable(layout, curre);
-                Console.WriteLine($"({curre.X};{curre.Y}) - {need}");
-
-                if (!need) { 
-                    continue;
-                }
-
-                graphics.FillRectangle(new SolidBrush(layout.colorOutline), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
-            }
-            /*for (int i = 0; i < layout.vertexsInvisable.Count; i++)
-            {
-                Point curre = inner[i];
-                bool need = needVisable(layout, curre);
-                if (!need)
+                for (int i = 0; i < outline.Count(); i++)
                 {
-                    continue;
+                    Point curre = outline[i];
+                    if (curre.X > image.mainLayout.vertexs[2].X || curre.Y > image.mainLayout.vertexs[2].Y || curre.X < image.mainLayout.vertexs[0].X || curre.Y < image.mainLayout.vertexs[0].Y)
+                    {
+                        continue;
+                    }
+
+                    bool need = needVisable(layout, curre);
+                    Console.WriteLine($"({curre.X};{curre.Y}) - {need}");
+                    if (!need)
+                    {
+                        continue;
+                    }
+
+                    graphics.FillRectangle(new SolidBrush(layout.colorOutline), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
+
                 }
 
-                graphics.FillRectangle(new SolidBrush(layout.colorOutline), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
+                for (int i = 0; i < inner.Count(); i++)
+                {
+                    if (!(PnPoly(layout.visable, inner[i]))) { continue; }
+                    if (!needVisable(layout, inner[i])) { continue; }
+                    graphics.FillRectangle(new SolidBrush(layout.colorInner), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
+                }
             }
-            */
-
-            for (int i = 0; i < inner.Count(); i++)
+            else
             {
-                if (!(PnPoly(layout.visable, inner[i]))) { continue; }
-                if (!needVisable(layout, inner[i])) { continue; }
-                graphics.FillRectangle(new SolidBrush(layout.colorInner), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
+                for (int i = 0; i < outline.Count(); i++)
+                {
+                    Point curre = outline[i];
+                    Color resColor = layout.colorOutline;
+                    if (curre.X > image.mainLayout.vertexs[2].X || curre.Y > image.mainLayout.vertexs[2].Y || curre.X < image.mainLayout.vertexs[0].X || curre.Y < image.mainLayout.vertexs[0].Y)
+                    {
+                        continue;
+                    }
+
+                    bool need = needVisable(layout, curre);
+                    Console.WriteLine($"({curre.X};{curre.Y}) - {need}");
+
+                    if (!need)
+                    {
+                        Color existColor = bitmap.GetPixel(outline[i].X, outline[i].Y);
+                        int r = existColor.R ^ layout.colorOutline.R;
+                        int g = existColor.G ^ layout.colorOutline.G;
+                        int b = existColor.B ^ layout.colorOutline.B;
+                        int a = existColor.A ^ layout.colorOutline.A;
+                        resColor = Color.FromArgb(r, g, b, a);
+                    }
+                    graphics.FillRectangle(new SolidBrush(resColor), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
+
+                }
+
+                for (int i = 0; i < inner.Count(); i++)
+                {
+                    Color resColor = layout.colorInner;
+                    if (!(PnPoly(layout.visable, inner[i]))) { continue; }
+                    if (!needVisable(layout, inner[i])) 
+                    {
+                        resColor = Color.FromArgb(resColor.R, resColor.G, resColor.B, resColor.A/3);
+                    }
+                    graphics.FillRectangle(new SolidBrush(resColor), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
+                }
             }
         }
 
@@ -722,6 +753,26 @@ namespace KGLaba4
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            isAVid = !isAVid;
+
+            if (isAVid)
+            {
+                graphics.Clear(Color.White); 
+                currentLayout = 0;
+                button6.Text = "Режим А";
+            }
+            else
+            {
+                graphics.Clear(Color.White); 
+                currentLayout = 0;
+                button6.Text = "Режим Б";
+            }
+
+            pictureBox1.Image = bitmap;
         }
     }
 
