@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ namespace KGLaba4
         Graphics graphics;
         int currentLayout = 0;
         int scale = 3;
-        int offsetX = 20, offsetY = -10;
+        int offsetX = 0, offsetY = 0;
 
         private bool axesVisible = false;
         private bool gridVisible = false;
@@ -20,240 +21,240 @@ namespace KGLaba4
         public Form1()
         {
             InitializeComponent();
-            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(40, 0), new Point(40, 40), new Point(0, 40) }));
+            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
 
 
-            List<Point> l1 = new List<Point>
-{
-    new Point(13 * 5, 23 * 5),
-    new Point(20 * 5, 14 * 5),
-    new Point(20 * 5, 23 * 5),
-};
+                        List<Point> l1 = new List<Point>
+            {
+                new Point(13 * 5, 23 * 5),
+                new Point(20 * 5, 14 * 5),
+                new Point(20 * 5, 23 * 5),
+            };
 
-            List<Point> l2 = new List<Point>
-{
-    new Point(13 * 5, 23 * 5),
-    new Point(13 * 5, 13 * 5),
-    new Point(20 * 5, 14 * 5),
-};
-            List<Point> l3 = new List<Point>
-{
-    new Point(4 * 5, 22 * 5),
-    new Point(13 * 5, 13 * 5),
-    new Point(13 * 5, 23 * 5),
-};
-            List<Point> l4 = new List<Point>
-{
-    new Point(13 * 5, 13 * 5),
-    new Point(19 * 5, 7 * 5),
-    new Point(20 * 5, 14 * 5),
-};
+                        List<Point> l2 = new List<Point>
+            {
+                new Point(13 * 5, 23 * 5),
+                new Point(13 * 5, 13 * 5),
+                new Point(20 * 5, 14 * 5),
+            };
+                        List<Point> l3 = new List<Point>
+            {
+                new Point(4 * 5, 22 * 5),
+                new Point(13 * 5, 13 * 5),
+                new Point(13 * 5, 23 * 5),
+            };
+                        List<Point> l4 = new List<Point>
+            {
+                new Point(13 * 5, 13 * 5),
+                new Point(19 * 5, 7 * 5),
+                new Point(20 * 5, 14 * 5),
+            };
 
-            List<Point> l5 = new List<Point>
-{
-    new Point(13 * 5, 13 * 5),
-    new Point(17 * 5, 6 * 5),
-    new Point(19 * 5, 7 * 5),
-};
-            List<Point> l6 = new List<Point>
-{
-    new Point(19 * 5, 7 * 5),
-    new Point(17 * 5, 6 * 5),
-    new Point(19 * 5, 5 * 5),
-};
-            List<Point> l7 = new List<Point>
-{
-    new Point(13 * 5, 13 * 5),
-    new Point(14 * 5, 5 * 5),
+                        List<Point> l5 = new List<Point>
+            {
+                new Point(13 * 5, 13 * 5),
+                new Point(17 * 5, 6 * 5),
+                new Point(19 * 5, 7 * 5),
+            };
+                        List<Point> l6 = new List<Point>
+            {
+                new Point(19 * 5, 7 * 5),
+                new Point(17 * 5, 6 * 5),
+                new Point(19 * 5, 5 * 5),
+            };
+                        List<Point> l7 = new List<Point>
+            {
+                new Point(13 * 5, 13 * 5),
+                new Point(14 * 5, 5 * 5),
 
-    new Point(17 * 5, 6 * 5),
-};
+                new Point(17 * 5, 6 * 5),
+            };
 
-            List<Point> l8 = new List<Point>
-{
-    new Point(17 * 5, 6 * 5),
+                        List<Point> l8 = new List<Point>
+            {
+                new Point(17 * 5, 6 * 5),
 
-    new Point(18 * 5, 1 * 5),
-    new Point(20 * 5, 5 * 5),
+                new Point(18 * 5, 1 * 5),
+                new Point(20 * 5, 5 * 5),
 
-};
-            List<Point> l9 = new List<Point>
-{
-    new Point(14 * 5, 5 * 5),
-    new Point(18 * 5, 1 * 5),
-    new Point(17 * 5, 6 * 5),
-};
-            List<Point> l10 = new List<Point>
-{
-    new Point(14 * 5, 5 * 5),
-    new Point(12 * 5, 4 * 5),
-    new Point(16 * 5, 4 * 5),
-};
+            };
+                        List<Point> l9 = new List<Point>
+            {
+                new Point(14 * 5, 5 * 5),
+                new Point(18 * 5, 1 * 5),
+                new Point(17 * 5, 6 * 5),
+            };
+                        List<Point> l10 = new List<Point>
+            {
+                new Point(14 * 5, 5 * 5),
+                new Point(12 * 5, 4 * 5),
+                new Point(16 * 5, 4 * 5),
+            };
 
-            List<Point> l11 = new List<Point>
-{
-    new Point(13 * 5, 13 * 5),
-    new Point(4 * 5, 12 * 5),
-    new Point(14 * 5, 5 * 5),
-};
+                        List<Point> l11 = new List<Point>
+            {
+                new Point(13 * 5, 13 * 5),
+                new Point(4 * 5, 12 * 5),
+                new Point(14 * 5, 5 * 5),
+            };
 
-            List<Point> l12 = new List<Point>
-{
-    new Point(7 * 5, 19 * 5),
-    new Point(6 * 5, 15 * 5),
-    new Point(13 * 5, 13 * 5),
-};
+                        List<Point> l12 = new List<Point>
+            {
+                new Point(7 * 5, 19 * 5),
+                new Point(6 * 5, 15 * 5),
+                new Point(13 * 5, 13 * 5),
+            };
 
-            List<Point> l13 = new List<Point>
-{
-    new Point(7 * 5, 19 * 5),
-    new Point(4 * 5, 16 * 5),
-    new Point(6 * 5, 15 * 5),
-};
+                        List<Point> l13 = new List<Point>
+            {
+                new Point(7 * 5, 19 * 5),
+                new Point(4 * 5, 16 * 5),
+                new Point(6 * 5, 15 * 5),
+            };
 
-            List<Point> l14 = new List<Point>
-{
-    new Point(4 * 5, 16 * 5),
+                        List<Point> l14 = new List<Point>
+            {
+                new Point(4 * 5, 16 * 5),
 
-    new Point(4 * 5, 12 * 5),
-    new Point(13 * 5, 13 * 5),
-};
-            List<Point> l15 = new List<Point>
-{
-    new Point(4 * 5, 12 * 5),
-    new Point(6 * 5, 5 * 5),
-    new Point(11 * 5, 7 * 5),
-};
-            List<Point> l16 = new List<Point>
-{
-    new Point(11 * 5, 7 * 5),
-    new Point(6 * 5, 5 * 5),
+                new Point(4 * 5, 12 * 5),
+                new Point(13 * 5, 13 * 5),
+            };
+                        List<Point> l15 = new List<Point>
+            {
+                new Point(4 * 5, 12 * 5),
+                new Point(6 * 5, 5 * 5),
+                new Point(11 * 5, 7 * 5),
+            };
+                        List<Point> l16 = new List<Point>
+            {
+                new Point(11 * 5, 7 * 5),
+                new Point(6 * 5, 5 * 5),
 
-    new Point(12 * 5, 4 * 5),
-};
-            List<Point> l17 = new List<Point>
-{
-    new Point(11 * 5, 7 * 5),
-    new Point(12 * 5, 4 * 5),
+                new Point(12 * 5, 4 * 5),
+            };
+                        List<Point> l17 = new List<Point>
+            {
+                new Point(11 * 5, 7 * 5),
+                new Point(12 * 5, 4 * 5),
 
-    new Point(14 * 5, 5 * 5),
-};
+                new Point(14 * 5, 5 * 5),
+            };
 
-            List<Point> l18 = new List<Point>
-{
-    new Point(7 * 5, 5 * 5),
-    new Point(9 * 5, 2 * 5),
+                        List<Point> l18 = new List<Point>
+            {
+                new Point(7 * 5, 5 * 5),
+                new Point(9 * 5, 2 * 5),
 
-    new Point(12 * 5, 4 * 5),
-};
+                new Point(12 * 5, 4 * 5),
+            };
 
-            List<Point> l19 = new List<Point>
-{
-    new Point(16 * 5, 5 * 5 - 1),
-    new Point(18 * 5, 2 * 5),
+                        List<Point> l19 = new List<Point>
+            {
+                new Point(16 * 5, 5 * 5 - 1),
+                new Point(18 * 5, 2 * 5),
 
-    new Point(19 * 5 - 1, 5 * 5 - 1),
-};
+                new Point(19 * 5 - 1, 5 * 5 - 1),
+            };
 
-            List<Point> l20 = new List<Point>
-{
-    new Point(6 * 5, 13 * 5 + 1 ),
-    new Point(10 * 5, 13 * 5 + 1),
+                        List<Point> l20 = new List<Point>
+            {
+                new Point(6 * 5, 13 * 5 + 1 ),
+                new Point(10 * 5, 13 * 5 + 1),
 
-    new Point(8 * 5, 14 * 5),
-};
+                new Point(8 * 5, 14 * 5),
+            };
 
-            List<Point> l21 = new List<Point>
-{
-    new Point(5 * 5 + 1, 13 * 5 -1 ),
-    new Point(5 * 5 + 1, 11 * 5 - 1),
+                        List<Point> l21 = new List<Point>
+            {
+                new Point(5 * 5 + 1, 13 * 5 -1 ),
+                new Point(5 * 5 + 1, 11 * 5 - 1),
 
-    new Point(7 * 5 + 1, 13 * 5 - 1 ),
-};
+                new Point(7 * 5 + 1, 13 * 5 - 1 ),
+            };
 
-            List<Point> l22 = new List<Point>
-{
-    new Point(7 * 5 + 1, 13 * 5 - 1 ),
+                        List<Point> l22 = new List<Point>
+            {
+                new Point(7 * 5 + 1, 13 * 5 - 1 ),
 
-    new Point(10 * 5 + 1, 11 * 5 -1 ),
-    new Point(10 * 5 + 1, 13 * 5 - 1),
+                new Point(10 * 5 + 1, 11 * 5 -1 ),
+                new Point(10 * 5 + 1, 13 * 5 - 1),
 
-};
-            List<Point> l23 = new List<Point>
-{
-    new Point(7 * 5 + 1, 13 * 5 - 1 ),
-    new Point(5 * 5 + 1, 11 * 5 - 1),
-    new Point(7 * 5 + 1, 10 * 5 - 1),
-};
-            List<Point> l24 = new List<Point>
-{
-    new Point(7 * 5 + 1, 13 * 5 - 1 ),
-    new Point(7 * 5 + 1, 10 * 5 - 1),
+            };
+                        List<Point> l23 = new List<Point>
+            {
+                new Point(7 * 5 + 1, 13 * 5 - 1 ),
+                new Point(5 * 5 + 1, 11 * 5 - 1),
+                new Point(7 * 5 + 1, 10 * 5 - 1),
+            };
+                        List<Point> l24 = new List<Point>
+            {
+                new Point(7 * 5 + 1, 13 * 5 - 1 ),
+                new Point(7 * 5 + 1, 10 * 5 - 1),
 
-    new Point(10 * 5 + 1, 11 * 5 - 1),
-};
+                new Point(10 * 5 + 1, 11 * 5 - 1),
+            };
 
-            List<Point> l25 = new List<Point>
-{
-    new Point(7 * 5 + 1, 13 * 5 - 1 ),
-    new Point(6 * 5 + 1, 11 * 5 - 1),
-    new Point(7 * 5 + 1, 10 * 5 - 1),
-};
-            List<Point> l26 = new List<Point>
-{
-    new Point(7 * 5 + 1, 13 * 5 - 1 ),
-    new Point(7 * 5 + 1, 10 * 5 - 1),
+                        List<Point> l25 = new List<Point>
+            {
+                new Point(7 * 5 + 1, 13 * 5 - 1 ),
+                new Point(6 * 5 + 1, 11 * 5 - 1),
+                new Point(7 * 5 + 1, 10 * 5 - 1),
+            };
+                        List<Point> l26 = new List<Point>
+            {
+                new Point(7 * 5 + 1, 13 * 5 - 1 ),
+                new Point(7 * 5 + 1, 10 * 5 - 1),
 
-    new Point(8 * 5 + 1, 11 * 5 - 1),
-};
+                new Point(8 * 5 + 1, 11 * 5 - 1),
+            };
 
-            List<Point> l27 = new List<Point>
-{
-    new Point(7 * 5, 9 * 5 ),
-    new Point(6 * 5, 8 * 5),
+                        List<Point> l27 = new List<Point>
+            {
+                new Point(7 * 5, 9 * 5 ),
+                new Point(6 * 5, 8 * 5),
 
-    new Point(7 * 5, 7 * 5),
-};
+                new Point(7 * 5, 7 * 5),
+            };
 
-            List<Point> l28 = new List<Point>
-{
-    new Point(7 * 5, 9 * 5 ),
-    new Point(7 * 5, 7 * 5),
+                        List<Point> l28 = new List<Point>
+            {
+                new Point(7 * 5, 9 * 5 ),
+                new Point(7 * 5, 7 * 5),
 
-    new Point(8 * 5, 8 * 5),
-};
+                new Point(8 * 5, 8 * 5),
+            };
 
-            List<Point> l29 = new List<Point>
-{
-    new Point(7 * 5 - 2, 8 * 5 ),
-    new Point(7 * 5 , 8 * 5 - 2),
+                        List<Point> l29 = new List<Point>
+            {
+                new Point(7 * 5 - 2, 8 * 5 ),
+                new Point(7 * 5 , 8 * 5 - 2),
 
-    new Point(8 * 5 - 2, 8 * 5),
-};
+                new Point(8 * 5 - 2, 8 * 5),
+            };
 
-            List<Point> l30 = new List<Point>
-{
-    new Point(12 * 5, 10 * 5 ),
-    new Point(11 * 5, 9 * 5),
+                        List<Point> l30 = new List<Point>
+            {
+                new Point(12 * 5, 10 * 5 ),
+                new Point(11 * 5, 9 * 5),
 
-    new Point(12 * 5, 8 * 5),
-};
+                new Point(12 * 5, 8 * 5),
+            };
 
-            List<Point> l31 = new List<Point>
-{
-    new Point(12 * 5, 10 * 5 ),
-    new Point(12 * 5, 8 * 5),
+                        List<Point> l31 = new List<Point>
+            {
+                new Point(12 * 5, 10 * 5 ),
+                new Point(12 * 5, 8 * 5),
 
-    new Point(14 * 5, 9 * 5 ),
-};
+                new Point(14 * 5, 9 * 5 ),
+            };
 
-            List<Point> l32 = new List<Point>
-{
-    new Point(12 * 5, 9 * 5),
-    new Point(12 * 5 + 2, 9 * 5 - 2),
+                        List<Point> l32 = new List<Point>
+            {
+                new Point(12 * 5, 9 * 5),
+                new Point(12 * 5 + 2, 9 * 5 - 2),
 
-    new Point(13 * 5 - 2, 9 * 5),
-};
+                new Point(13 * 5 - 2, 9 * 5),
+            };
             Layout layout1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l1);
             image.Add(layout1);
             Layout layout2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l2);
@@ -436,8 +437,23 @@ namespace KGLaba4
             for (int i = 0; i < outline.Count(); i++)
             {
                 Point curre = outline[i];
+                if (curre.X > image.mainLayout.vertexs[2].X || curre.Y > image.mainLayout.vertexs[2].Y || curre.X < image.mainLayout.vertexs[0].X || curre.Y < image.mainLayout.vertexs[0].Y) { 
+                      continue; 
+                }
+
                 bool need = needVisable(layout, curre);
                 Console.WriteLine($"({curre.X};{curre.Y}) - {need}");
+
+                if (!need) { 
+                    continue;
+                }
+
+                graphics.FillRectangle(new SolidBrush(layout.colorOutline), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
+            }
+            /*for (int i = 0; i < layout.vertexsInvisable.Count; i++)
+            {
+                Point curre = inner[i];
+                bool need = needVisable(layout, curre);
                 if (!need)
                 {
                     continue;
@@ -445,9 +461,11 @@ namespace KGLaba4
 
                 graphics.FillRectangle(new SolidBrush(layout.colorOutline), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
             }
+            */
 
             for (int i = 0; i < inner.Count(); i++)
             {
+                if (!(PnPoly(layout.visable, inner[i]))) { continue; }
                 if (!needVisable(layout, inner[i])) { continue; }
                 graphics.FillRectangle(new SolidBrush(layout.colorInner), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
             }
@@ -569,27 +587,44 @@ namespace KGLaba4
             return true;
         }
 
+
+        // Функция для проверки, лежит ли точка на отрезке
+        public static bool IsPointOnSegment(Point p, Point p1, Point p2)
+        {
+            // Проверяем, что точка p лежит на отрезке p1p2
+            return (p.X >= Math.Min(p1.X, p2.X) && p.X <= Math.Max(p1.X, p2.X) &&
+                    p.Y >= Math.Min(p1.Y, p2.Y) && p.Y <= Math.Max(p1.Y, p2.Y) &&
+                    (p2.Y - p1.Y) * (p.X - p1.X) == (p.Y - p1.Y) * (p2.X - p1.X));
+        }
+
         public static bool PnPoly(List<Point> polygon, Point p)
         {
-            bool c = false;
-            int npol = polygon.Count;
-            int j = npol - 1;  // РРЅРґРµРєСЃ РїСЂРµРґС‹РґСѓС‰РµР№ РІРµСЂС€РёРЅС‹ (РґР»СЏ РїРµСЂРІРѕР№ РёС‚РµСЂР°С†РёРё)
+            bool inside = false;
+            int n = polygon.Count;
+            int j = n - 1;  // Индекс последней вершины
 
-            for (int i = 0; i < npol; j = i++)
+            for (int i = 0; i < n; i++)
             {
-                // РџРѕР»СѓС‡Р°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РІРµСЂС€РёРЅ РјРЅРѕРіРѕСѓРіРѕР»СЊРЅРёРєР°
                 float x1 = polygon[i].X, y1 = polygon[i].Y;
                 float x2 = polygon[j].X, y2 = polygon[j].Y;
 
-                // РџСЂРѕРІРµСЂСЏРµРј, РїРµСЂРµСЃРµРєР°РµС‚ Р»Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ Р»РёРЅРёСЏ, РїСЂРѕС…РѕРґСЏС‰Р°СЏ С‡РµСЂРµР· С‚РѕС‡РєСѓ (p.X, p.Y), СЂРµР±СЂРѕ РјРЅРѕРіРѕСѓРіРѕР»СЊРЅРёРєР°
-                if (((y1 <= p.Y && p.Y <= y2) || (y2 <= p.Y && p.Y <= y1)) &&
-                    ((y2 - y1) != 0) &&
-                    (p.X > Math.Round(((float)x2 - x1) * (p.Y - y1) / (y2 - y1) + x1)))
+                // Проверка, лежит ли точка на одном из ребер
+                if (IsPointOnSegment(p, polygon[i], polygon[j]))
                 {
-                    c = !c;  // РџРµСЂРµРєР»СЋС‡Р°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ c
+                    return true;  // Точка лежит на ребре
                 }
+
+                // Проверяем, пересекает ли горизонтальный луч, исходящий от точки p
+                if (((y1 > p.Y) != (y2 > p.Y)) && // Если вершины находятся по разные стороны от линии y = p.Y
+                    (p.X < (x2 - x1) * (p.Y - y1) / (y2 - y1) + x1)) // Находим пересечение с линией
+                {
+                    inside = !inside;
+                }
+
+                j = i;  // Перемещаем j к i для следующей итерации
             }
-            return c;  // Р’РѕР·РІСЂР°С‰Р°РµРј, Р»РµР¶РёС‚ Р»Рё С‚РѕС‡РєР° РІРЅСѓС‚СЂРё РјРЅРѕРіРѕСѓРіРѕР»СЊРЅРёРєР°
+
+            return inside;
         }
 
         private static bool Inside(Point p, Point cp1, Point cp2)
@@ -692,7 +727,7 @@ namespace KGLaba4
 
     public partial class Image {
         List<Layout> layouts = new List<Layout>();
-        Layout mainLayout;
+        public Layout mainLayout;
 
         public Image(Layout main)
         {
@@ -703,6 +738,7 @@ namespace KGLaba4
         {
             if (index == -1) layouts.Add(layout);
             else layouts.Insert(index, layout);
+            layout.visable.AddRange(SutherlandCohenClipper.ClipPolygon(layout.vertexs, mainLayout.vertexs));
 
             // TODO: переделать с добавление по индексу (заслонять только слои под ним
             for (int i = layouts.Count - 2; i >= 0; i--)
@@ -732,6 +768,7 @@ namespace KGLaba4
         public Color colorOutline;
         public List<Point> vertexs;
         public List<List<Point>> vertexsInvisable = new List<List<Point>>();
+        public List<Point> visable = new List<Point>();
 
         public Layout(Color inner, Color outline, List<Point> _vertexs)
         {
@@ -750,4 +787,111 @@ namespace KGLaba4
 
         }
     }
+
+    public class SutherlandCohenClipper
+    {
+        // Метод для отсечения многоугольника по многоугольнику отсечения
+        public static List<Point> ClipPolygon(List<Point> subjectPolygon, List<Point> clipperPolygon)
+        {
+            // Замкнуть многоугольник отсечения, если он не замкнут
+            if (clipperPolygon[clipperPolygon.Count - 1] != clipperPolygon[0])
+            {
+                clipperPolygon.Add(clipperPolygon[0]);
+            }
+            List<Point> clippedPolygon = new List<Point>(subjectPolygon);
+
+            bool isIntersecting = false; // Переменная для отслеживания пересечений
+
+            // Проходим по рёбрам многоугольника отсечения
+            for (int i = 0; i < clipperPolygon.Count - 1; i++)
+            {
+                Point clipStart = clipperPolygon[i];
+                Point clipEnd = clipperPolygon[i + 1];
+
+                // Отсечение по текущему рёберу
+                List<Point> newClippedPolygon = ClipByEdge(clippedPolygon, clipStart, clipEnd);
+
+                if (newClippedPolygon.Count > 0)
+                {
+                    isIntersecting = true; // Если хотя бы одно отсечение произошло, отмечаем, что пересечение есть
+                    clippedPolygon = newClippedPolygon;
+                }
+                else
+                {
+                    // Если после отсечения остался пустой список, то возвращаем пустой результат
+                    return new List<Point>(clipperPolygon);
+                }
+            }
+
+            // Если не было пересечений, возвращаем исходный clipperPolygon
+            if (!isIntersecting)
+            {
+                return clipperPolygon;
+            }
+
+            return clippedPolygon;
+        }
+
+        // Метод отсечения по одному рёберу
+        private static List<Point> ClipByEdge(List<Point> polygon, Point clipStart, Point clipEnd)
+        {
+            List<Point> result = new List<Point>();
+
+            for (int i = 0; i < polygon.Count; i++)
+            {
+                Point current = polygon[i];
+                Point previous = polygon[(i - 1 + polygon.Count) % polygon.Count];
+
+                // Проверка, находится ли точка внутри рёбер отсечения
+                bool isCurrentInside = IsInside(current, clipStart, clipEnd);
+                bool isPreviousInside = IsInside(previous, clipStart, clipEnd);
+
+                // Если обе точки внутри, добавляем текущую точку
+                if (isCurrentInside && isPreviousInside)
+                {
+                    result.Add(current);
+                }
+                // Если точка пересечения
+                else if (isCurrentInside && !isPreviousInside)
+                {
+                    Point intersection = GetIntersection(previous, current, clipStart, clipEnd);
+                    result.Add(intersection);
+                    result.Add(current);
+                }
+                // Если точка пересечения
+                else if (!isCurrentInside && isPreviousInside)
+                {
+                    Point intersection = GetIntersection(previous, current, clipStart, clipEnd);
+                    result.Add(intersection);
+                }
+            }
+
+            return result;
+        }
+
+        // Проверка, находится ли точка внутри рёбер отсечения
+        private static bool IsInside(Point p, Point clipStart, Point clipEnd)
+        {
+            // Определяем на какой стороне от рёбер отсечения находится точка
+            return (clipEnd.X - clipStart.X) * (p.Y - clipStart.Y) - (clipEnd.Y - clipStart.Y) * (p.X - clipStart.X) >= 0;
+        }
+
+        // Находим точку пересечения двух отрезков
+        private static Point GetIntersection(Point p1, Point p2, Point q1, Point q2)
+        {
+            float x1 = p1.X, y1 = p1.Y, x2 = p2.X, y2 = p2.Y;
+            float x3 = q1.X, y3 = q1.Y, x4 = q2.X, y4 = q2.Y;
+
+            // Определяем детерминант для вычисления пересечения
+            float denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+            if (denom == 0) return new Point(0, 0); // Параллельные отрезки, нет пересечения
+
+            // Находим точку пересечения
+            float intersectX = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom;
+            float intersectY = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denom;
+
+            return new Point((int)intersectX, (int)intersectY);
+        }
+    }
+
 }
