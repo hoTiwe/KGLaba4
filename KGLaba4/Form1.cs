@@ -22,7 +22,7 @@ namespace KGLaba4
         public Form1()
         {
             InitializeComponent();
-            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
+            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(50, 0), new Point(50, 50), new Point(0, 50) }));
 
 
             List<Point> l1 = new List<Point>
@@ -439,7 +439,7 @@ namespace KGLaba4
                 for (int i = 0; i < outline.Count(); i++)
                 {
                     Point curre = outline[i];
-                    if (curre.X > image.mainLayout.vertexs[2].X || curre.Y > image.mainLayout.vertexs[2].Y || curre.X < image.mainLayout.vertexs[0].X || curre.Y < image.mainLayout.vertexs[0].Y)
+                    if (!(PnPoly(layout.visable, outline[i])))
                     {
                         continue;
                     }
@@ -789,7 +789,8 @@ namespace KGLaba4
         {
             if (index == -1) layouts.Add(layout);
             else layouts.Insert(index, layout);
-            layout.visable.AddRange(SutherlandCohenClipper.ClipPolygon(layout.vertexs, mainLayout.vertexs));
+            CohenSutherlandPolygonClipper clipper = new CohenSutherlandPolygonClipper(mainLayout.vertexs);
+            layout.visable.AddRange(clipper.ClipPolygon(layout.vertexs));
 
             // TODO: переделать с добавление по индексу (заслонять только слои под ним
             for (int i = layouts.Count - 2; i >= 0; i--)
@@ -839,109 +840,101 @@ namespace KGLaba4
         }
     }
 
-    public class SutherlandCohenClipper
+    public class CohenSutherlandPolygonClipper
     {
-        // Метод для отсечения многоугольника по многоугольнику отсечения
-        public static List<Point> ClipPolygon(List<Point> subjectPolygon, List<Point> clipperPolygon)
+        private int xmin, ymin, xmax, ymax;
+
+        public CohenSutherlandPolygonClipper(List<Point> rectangle)
         {
-            // Замкнуть многоугольник отсечения, если он не замкнут
-            if (clipperPolygon[clipperPolygon.Count - 1] != clipperPolygon[0])
-            {
-                clipperPolygon.Add(clipperPolygon[0]);
-            }
-            List<Point> clippedPolygon = new List<Point>(subjectPolygon);
+            if (rectangle.Count != 4)
+                throw new ArgumentException("Rectangle must be defined by four points.");
 
-            bool isIntersecting = false; // Переменная для отслеживания пересечений
-
-            // Проходим по рёбрам многоугольника отсечения
-            for (int i = 0; i < clipperPolygon.Count - 1; i++)
-            {
-                Point clipStart = clipperPolygon[i];
-                Point clipEnd = clipperPolygon[i + 1];
-
-                // Отсечение по текущему рёберу
-                List<Point> newClippedPolygon = ClipByEdge(clippedPolygon, clipStart, clipEnd);
-
-                if (newClippedPolygon.Count > 0)
-                {
-                    isIntersecting = true; // Если хотя бы одно отсечение произошло, отмечаем, что пересечение есть
-                    clippedPolygon = newClippedPolygon;
-                }
-                else
-                {
-                    // Если после отсечения остался пустой список, то возвращаем пустой результат
-                    return new List<Point>(clipperPolygon);
-                }
-            }
-
-            // Если не было пересечений, возвращаем исходный clipperPolygon
-            if (!isIntersecting)
-            {
-                return clipperPolygon;
-            }
-
-            return clippedPolygon;
+            xmin = Math.Min(Math.Min(rectangle[0].X, rectangle[1].X), Math.Min(rectangle[2].X, rectangle[3].X));
+            ymin = Math.Min(Math.Min(rectangle[0].Y, rectangle[1].Y), Math.Min(rectangle[2].Y, rectangle[3].Y));
+            xmax = Math.Max(Math.Max(rectangle[0].X, rectangle[1].X), Math.Max(rectangle[2].X, rectangle[3].X));
+            ymax = Math.Max(Math.Max(rectangle[0].Y, rectangle[1].Y), Math.Max(rectangle[2].Y, rectangle[3].Y));
         }
 
-        // Метод отсечения по одному рёберу
-        private static List<Point> ClipByEdge(List<Point> polygon, Point clipStart, Point clipEnd)
+        private bool IsInside(Point p, string edge)
         {
-            List<Point> result = new List<Point>();
+            return edge switch
+            {
+                "LEFT" => p.X >= xmin,
+                "RIGHT" => p.X <= xmax,
+                "BOTTOM" => p.Y >= ymin,
+                "TOP" => p.Y <= ymax,
+                _ => throw new ArgumentException("Invalid edge.")
+            };
+        }
+
+        private Point ComputeIntersection(Point p1, Point p2, string edge)
+        {
+            if (edge == "LEFT")
+            {
+                int y = p1.Y + (p2.Y - p1.Y) * (xmin - p1.X) / (p2.X - p1.X);
+                return new Point(xmin, y);
+            }
+            if (edge == "RIGHT")
+            {
+                int y = p1.Y + (p2.Y - p1.Y) * (xmax - p1.X) / (p2.X - p1.X);
+                return new Point(xmax, y);
+            }
+            if (edge == "BOTTOM")
+            {
+                int x = p1.X + (p2.X - p1.X) * (ymin - p1.Y) / (p2.Y - p1.Y);
+                return new Point(x, ymin);
+            }
+            if (edge == "TOP")
+            {
+                int x = p1.X + (p2.X - p1.X) * (ymax - p1.Y) / (p2.Y - p1.Y);
+                return new Point(x, ymax);
+            }
+            throw new ArgumentException("Invalid edge.");
+        }
+
+        private List<Point> ClipEdge(List<Point> polygon, string edge)
+        {
+            var clipped = new List<Point>();
 
             for (int i = 0; i < polygon.Count; i++)
             {
-                Point current = polygon[i];
-                Point previous = polygon[(i - 1 + polygon.Count) % polygon.Count];
+                Point p1 = polygon[i];
+                Point p2 = polygon[(i + 1) % polygon.Count];
 
-                // Проверка, находится ли точка внутри рёбер отсечения
-                bool isCurrentInside = IsInside(current, clipStart, clipEnd);
-                bool isPreviousInside = IsInside(previous, clipStart, clipEnd);
+                bool p1Inside = IsInside(p1, edge);
+                bool p2Inside = IsInside(p2, edge);
 
-                // Если обе точки внутри, добавляем текущую точку
-                if (isCurrentInside && isPreviousInside)
+                if (p1Inside && p2Inside)
                 {
-                    result.Add(current);
+                    clipped.Add(p2); // Оба конца внутри
                 }
-                // Если точка пересечения
-                else if (isCurrentInside && !isPreviousInside)
+                else if (p1Inside && !p2Inside)
                 {
-                    Point intersection = GetIntersection(previous, current, clipStart, clipEnd);
-                    result.Add(intersection);
-                    result.Add(current);
+                    // P1 внутри, P2 снаружи
+                    Point intersection = ComputeIntersection(p1, p2, edge);
+                    clipped.Add(intersection);
                 }
-                // Если точка пересечения
-                else if (!isCurrentInside && isPreviousInside)
+                else if (!p1Inside && p2Inside)
                 {
-                    Point intersection = GetIntersection(previous, current, clipStart, clipEnd);
-                    result.Add(intersection);
+                    // P1 снаружи, P2 внутри
+                    Point intersection = ComputeIntersection(p1, p2, edge);
+                    clipped.Add(intersection);
+                    clipped.Add(p2);
                 }
+                // Если оба снаружи, ничего не добавляем
             }
 
-            return result;
+            return clipped;
         }
 
-        // Проверка, находится ли точка внутри рёбер отсечения
-        private static bool IsInside(Point p, Point clipStart, Point clipEnd)
+        public List<Point> ClipPolygon(List<Point> polygon)
         {
-            // Определяем на какой стороне от рёбер отсечения находится точка
-            return (clipEnd.X - clipStart.X) * (p.Y - clipStart.Y) - (clipEnd.Y - clipStart.Y) * (p.X - clipStart.X) >= 0;
-        }
+            List<Point> clipped = ClipEdge(polygon, "LEFT");
+            clipped = ClipEdge(clipped, "RIGHT");
+            clipped = ClipEdge(clipped, "BOTTOM");
+            clipped = ClipEdge(clipped, "TOP");
 
-        // Находим точку пересечения двух отрезков
-        private static Point GetIntersection(Point p1, Point p2, Point q1, Point q2)
-        {
-            float x1 = p1.X, y1 = p1.Y, x2 = p2.X, y2 = p2.Y;
-            float x3 = q1.X, y3 = q1.Y, x4 = q2.X, y4 = q2.Y;
-
-            // Определяем детерминант для вычисления пересечения
-            float denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-            if (denom == 0) return new Point(0, 0); // Параллельные отрезки, нет пересечения
-
-            // Находим точку пересечения
-            float intersectX = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom;
-            float intersectY = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denom;
-
-            return new Point((int)intersectX, (int)intersectY);
+            return clipped;
         }
     }
 
