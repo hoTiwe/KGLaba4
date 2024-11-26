@@ -22,7 +22,7 @@ namespace KGLaba4
         public Form1()
         {
             InitializeComponent();
-            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(50, 0), new Point(50, 50), new Point(0, 50) }));
+            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
 
 
             List<Point> l1 = new List<Point>
@@ -256,6 +256,14 @@ namespace KGLaba4
 
                 new Point(13 * 5 - 2, 9 * 5),
             };
+            List<Point> l33 = new List<Point>
+            {
+                new Point(50, 50),
+                new Point(60, 60),
+
+                new Point(60, 50),
+            };
+            
             Layout layout1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l1);
             image.Add(layout1);
             Layout layout2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l2);
@@ -330,6 +338,9 @@ namespace KGLaba4
 
             Layout layout32 = new Layout(Color.Black, Color.Black, l32);
             image.Add(layout32);
+            
+            Layout layout33 = new Layout(Color.Red, Color.Black, l33);
+            image.Add(layout33);
             //Console.WriteLine("In polygon " + needVisable(layout2, new Point(17, 10)));
         }
 
@@ -493,9 +504,9 @@ namespace KGLaba4
                 {
                     Color resColor = layout.colorInner;
                     if (!(PnPoly(layout.visable, inner[i]))) { continue; }
-                    if (!needVisable(layout, inner[i])) 
+                    if (!needVisable(layout, inner[i]))
                     {
-                        resColor = Color.FromArgb(resColor.R, resColor.G, resColor.B, resColor.A/3);
+                        resColor = Color.FromArgb(resColor.R, resColor.G, resColor.B, resColor.A / 3);
                     }
                     graphics.FillRectangle(new SolidBrush(resColor), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
                 }
@@ -715,6 +726,7 @@ namespace KGLaba4
                     cp1 = cp2;
                 }
             }
+            if (outputList.Count == 0) outputList = clipPolygon;
 
             return outputList;
         }
@@ -761,18 +773,27 @@ namespace KGLaba4
 
             if (isAVid)
             {
-                graphics.Clear(Color.White); 
+                graphics.Clear(Color.White);
                 currentLayout = 0;
                 button6.Text = "Режим А";
             }
             else
             {
-                graphics.Clear(Color.White); 
+                graphics.Clear(Color.White);
                 currentLayout = 0;
                 button6.Text = "Режим Б";
             }
 
             pictureBox1.Image = bitmap;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Layout l = new Layout(Color.Red, Color.Black, new List<Point> { new Point(int.Parse(textBox6.Text), int.Parse(textBox5.Text)),
+            new Point(int.Parse(textBox8.Text), int.Parse(textBox7.Text)),
+            new Point(int.Parse(textBox10.Text), int.Parse(textBox9.Text)),});
+            
+            image.Add(l);
         }
     }
 
