@@ -22,7 +22,7 @@ namespace KGLaba4
         public Form1()
         {
             InitializeComponent();
-            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(50, 0), new Point(50, 50), new Point(0, 50) }));
+            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
 
 
             List<Point> l1 = new List<Point>
@@ -646,8 +646,8 @@ namespace KGLaba4
                 }
 
                 // ѕровер€ем, пересекает ли горизонтальный луч, исход€щий от точки p
-                if (((y1 > p.Y) != (y2 > p.Y)) && // ≈сли вершины наход€тс€ по разные стороны от линии y = p.Y
-                    (p.X < (x2 - x1) * (p.Y - y1) / (y2 - y1) + x1)) // Ќаходим пересечение с линией
+                if (((y1 >= p.Y) != (y2 >= p.Y)) && // ≈сли вершины наход€тс€ по разные стороны от линии y = p.Y
+                    (p.X <= (x2 - x1) * (p.Y - y1) / (y2 - y1) + x1)) // Ќаходим пересечение с линией
                 {
                     inside = !inside;
                 }
@@ -715,6 +715,7 @@ namespace KGLaba4
                     cp1 = cp2;
                 }
             }
+            if (outputList.Count == 0) outputList = clipPolygon;
 
             return outputList;
         }
