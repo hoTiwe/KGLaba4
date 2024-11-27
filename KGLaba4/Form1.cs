@@ -790,8 +790,13 @@ namespace KGLaba4
         {
             if (index == -1) layouts.Add(layout);
             else layouts.Insert(index, layout);
-            CohenSutherlandPolygonClipper clipper = new CohenSutherlandPolygonClipper(mainLayout.vertexs);
-            layout.visable.AddRange(clipper.ClipPolygon(layout.vertexs));
+            Clipping.Wxlef = mainLayout.vertexs[0].X;
+            Clipping.Wytop = mainLayout.vertexs[2].Y;
+
+            Clipping.Wxrig = mainLayout.vertexs[2].X;
+            Clipping.Wybot = mainLayout.vertexs[0].Y;
+            List<Point> clipper = Clipping.ClipPolygon(layout.vertexs);
+            layout.visable.AddRange(clipper);
 
             // TODO: переделать с добавление по индексу (заслонять только слои под ним
             for (int i = layouts.Count - 2; i >= 0; i--)
@@ -816,7 +821,8 @@ namespace KGLaba4
         }
     }
 
-    public class Layout{
+    public class Layout
+    {
         public Color colorInner;
         public Color colorOutline;
         public List<Point> vertexs;
@@ -841,102 +847,176 @@ namespace KGLaba4
         }
     }
 
-    public class CohenSutherlandPolygonClipper
+    public class Clipping
     {
-        private int xmin, ymin, xmax, ymax;
+        // Координаты начала отрезка
+        static float CSxn, CSyn;
 
-        public CohenSutherlandPolygonClipper(List<Point> rectangle)
+        // Определяет код точки xn, yn
+        static int CScode()
         {
-            if (rectangle.Count != 4)
-                throw new ArgumentException("Rectangle must be defined by four points.");
-
-            xmin = Math.Min(Math.Min(rectangle[0].X, rectangle[1].X), Math.Min(rectangle[2].X, rectangle[3].X));
-            ymin = Math.Min(Math.Min(rectangle[0].Y, rectangle[1].Y), Math.Min(rectangle[2].Y, rectangle[3].Y));
-            xmax = Math.Max(Math.Max(rectangle[0].X, rectangle[1].X), Math.Max(rectangle[2].X, rectangle[3].X));
-            ymax = Math.Max(Math.Max(rectangle[0].Y, rectangle[1].Y), Math.Max(rectangle[2].Y, rectangle[3].Y));
+            int i = 0;
+            if (CSxn < Wxlef) i++;
+            else if (CSxn > Wxrig) i += 2;
+            if (CSyn < Wybot) i += 4;
+            else if (CSyn > Wytop) i += 8;
+            return i;
         }
 
-        private bool IsInside(Point p, string edge)
+        // Статические переменные для окна
+        public static float Wxlef = 0, Wxrig = 100, Wybot = 0, Wytop = 100;
+
+        // Функция отсечения
+        public static int V_CSclip(ref float x0, ref float y0, ref float x1, ref float y1)
         {
-            return edge switch
+            float CSxk = x1, CSyk = y1; // Coordinates for the second point of the line
+            int cn, ck, visible = 0, ii = 4, s;
+            float dx, dy, dxdy = 0, dydx = 0, r;
+
+            // Initialize the points and their codes
+            CSxn = x1; CSyn = y1;
+            ck = CScode();
+
+            CSxn = x0; CSyn = y0;
+            cn = CScode();
+
+            // Calculate the differences and slopes
+            dx = CSxk - CSxn;
+            dy = CSyk - CSyn;
+
+            if (dx != 0)
+                dydx = dy / dx;
+            else
             {
-                "LEFT" => p.X >= xmin,
-                "RIGHT" => p.X <= xmax,
-                "BOTTOM" => p.Y >= ymin,
-                "TOP" => p.Y <= ymax,
-                _ => throw new ArgumentException("Invalid edge.")
-            };
+                if (dy == 0)
+                {
+                    if (cn == 0 && ck == 0)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+
+            if (dy != 0)
+                dxdy = dx / dy;
+
+            // Main clipping loop
+            do
+            {
+                if ((cn & ck) != 0) break; // Completely outside the window
+                if (cn == 0 && ck == 0) // Completely inside the window
+                {
+                    visible++;
+                    break;
+                }
+
+                if (cn == 0)
+                {
+                    // Swap points if necessary
+                    s = cn; cn = ck; ck = s;
+                    r = CSxn; CSxn = CSxk; CSxk = r;
+                    r = CSyn; CSyn = CSyk; CSyk = r;
+                }
+
+                // Clipping the segment with window boundaries
+                if ((cn & 1) != 0) // Intersection with left side
+                {
+                    CSyn = CSyn + dydx * (Wxlef - CSxn);
+                    CSxn = Wxlef;
+                }
+                else if ((cn & 2) != 0) // Intersection with right side
+                {
+                    CSyn = CSyn + dydx * (Wxrig - CSxn);
+                    CSxn = Wxrig;
+                }
+                else if ((cn & 4) != 0) // Intersection with bottom side
+                {
+                    CSxn = CSxn + dxdy * (Wybot - CSyn);
+                    CSyn = Wybot;
+                }
+                else if ((cn & 8) != 0) // Intersection with top side
+                {
+                    CSxn = CSxn + dxdy * (Wytop - CSyn);
+                    CSyn = Wytop;
+                }
+
+                cn = CScode(); // Recalculate the code for the new point
+
+            } while (--ii >= 0);
+
+            // Return the clipped segment if visible
+            if (visible != 0)
+            {
+                x0 = CSxn;
+                y0 = CSyn;
+                x1 = CSxk;
+                y1 = CSyk;
+            }
+
+            return visible;
         }
 
-        private Point ComputeIntersection(Point p1, Point p2, string edge)
+        public static List<Point> ClipPolygon(List<Point> polygon)
         {
-            if (edge == "LEFT")
-            {
-                int y = p1.Y + (p2.Y - p1.Y) * (xmin - p1.X) / (p2.X - p1.X);
-                return new Point(xmin, y);
-            }
-            if (edge == "RIGHT")
-            {
-                int y = p1.Y + (p2.Y - p1.Y) * (xmax - p1.X) / (p2.X - p1.X);
-                return new Point(xmax, y);
-            }
-            if (edge == "BOTTOM")
-            {
-                int x = p1.X + (p2.X - p1.X) * (ymin - p1.Y) / (p2.Y - p1.Y);
-                return new Point(x, ymin);
-            }
-            if (edge == "TOP")
-            {
-                int x = p1.X + (p2.X - p1.X) * (ymax - p1.Y) / (p2.Y - p1.Y);
-                return new Point(x, ymax);
-            }
-            throw new ArgumentException("Invalid edge.");
-        }
-
-        private List<Point> ClipEdge(List<Point> polygon, string edge)
-        {
-            var clipped = new List<Point>();
+            List<Point> clippedPolygon = new List<Point>();
 
             for (int i = 0; i < polygon.Count; i++)
             {
                 Point p1 = polygon[i];
                 Point p2 = polygon[(i + 1) % polygon.Count];
 
-                bool p1Inside = IsInside(p1, edge);
-                bool p2Inside = IsInside(p2, edge);
+                float x0 = p1.X, y0 = p1.Y;
+                float x1 = p2.X, y1 = p2.Y;
 
-                if (p1Inside && p2Inside)
+                // Вызываем метод с использованием ref
+                int clippedSegment = Clipping.V_CSclip(ref x0, ref y0, ref x1, ref y1);
+
+
+                if (clippedSegment != 0)
                 {
-                    clipped.Add(p2); // Оба конца внутри
+                    Point po1 = new Point((int)x0, (int)y0);
+                    Point po2 = new Point((int)x1, (int)y1);
+
+                    if (cmpPoint(p1, po1) && cmpPoint(p2, po2)) clippedPolygon.Add(po2);
+                    else
+                    {
+                        clippedPolygon.Add(po1);
+                        clippedPolygon.Add(po2);
+                    }
                 }
-                else if (p1Inside && !p2Inside)
+                else
                 {
-                    // P1 внутри, P2 снаружи
-                    Point intersection = ComputeIntersection(p1, p2, edge);
-                    clipped.Add(intersection);
+                    if (p2.X >= Wxrig && p2.Y <= Wybot)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxrig, (int)Wybot));
+                    }
+                    if (p2.X >= Wxrig && p2.Y >= Wytop)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxrig, (int)Wytop));
+                    }
+                    if (p2.X <= Wxlef && p2.Y >= Wytop)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxlef, (int)Wytop));
+                    }
+                    if (p2.X <= Wxlef && p2.Y <= Wybot)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxlef, (int)Wybot));
+                    }
                 }
-                else if (!p1Inside && p2Inside)
-                {
-                    // P1 снаружи, P2 внутри
-                    Point intersection = ComputeIntersection(p1, p2, edge);
-                    clipped.Add(intersection);
-                    clipped.Add(p2);
-                }
-                // Если оба снаружи, ничего не добавляем
             }
 
-            return clipped;
+            return clippedPolygon;
         }
 
-        public List<Point> ClipPolygon(List<Point> polygon)
+        public static bool cmpPoint(Point a, Point b)
         {
-            List<Point> clipped = ClipEdge(polygon, "LEFT");
-            clipped = ClipEdge(clipped, "RIGHT");
-            clipped = ClipEdge(clipped, "BOTTOM");
-            clipped = ClipEdge(clipped, "TOP");
-
-            return clipped;
+            return a.X == b.X && b.Y == a.Y;
         }
+
     }
 
 }
