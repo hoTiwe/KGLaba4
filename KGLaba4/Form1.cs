@@ -22,7 +22,7 @@ namespace KGLaba4
         public Form1()
         {
             InitializeComponent();
-            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
+            image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(60, 60), new Point(100, 60), new Point(100, 100), new Point(60, 100) }));
 
 
             List<Point> l1 = new List<Point>
@@ -790,8 +790,13 @@ namespace KGLaba4
         {
             if (index == -1) layouts.Add(layout);
             else layouts.Insert(index, layout);
-            CohenSutherlandPolygonClipper clipper = new CohenSutherlandPolygonClipper(mainLayout.vertexs);
-            layout.visable.AddRange(clipper.ClipPolygon(layout.vertexs));
+            FastClipping.Wxlef = mainLayout.vertexs[0].X;
+            FastClipping.Wytop = mainLayout.vertexs[2].Y;
+
+            FastClipping.Wxrig = mainLayout.vertexs[2].X;
+            FastClipping.Wybot = mainLayout.vertexs[0].Y;
+            List<Point> clipper = FastClipping.ClipPolygon(layout.vertexs);
+            layout.visable.AddRange(clipper);
 
             // TODO: переделать с добавление по индексу (заслонять только слои под ним
             for (int i = layouts.Count - 2; i >= 0; i--)
@@ -841,102 +846,521 @@ namespace KGLaba4
         }
     }
 
-    public class CohenSutherlandPolygonClipper
+    public static class FastClipping
     {
-        private int xmin, ymin, xmax, ymax;
+        public static float Wxlef, Wybot, Wxrig, Wytop;
+        private static float FC_xn, FC_yn, FC_xk, FC_yk;
 
-        public CohenSutherlandPolygonClipper(List<Point> rectangle)
+        private static void Clip0_Top()
         {
-            if (rectangle.Count != 4)
-                throw new ArgumentException("Rectangle must be defined by four points.");
-
-            xmin = Math.Min(Math.Min(rectangle[0].X, rectangle[1].X), Math.Min(rectangle[2].X, rectangle[3].X));
-            ymin = Math.Min(Math.Min(rectangle[0].Y, rectangle[1].Y), Math.Min(rectangle[2].Y, rectangle[3].Y));
-            xmax = Math.Max(Math.Max(rectangle[0].X, rectangle[1].X), Math.Max(rectangle[2].X, rectangle[3].X));
-            ymax = Math.Max(Math.Max(rectangle[0].Y, rectangle[1].Y), Math.Max(rectangle[2].Y, rectangle[3].Y));
+            FC_xn += (FC_xk - FC_xn) * (Wytop - FC_yn) / (FC_yk - FC_yn);
+            FC_yn = Wytop;
         }
 
-        private bool IsInside(Point p, string edge)
+        private static void Clip0_Bottom()
         {
-            return edge switch
-            {
-                "LEFT" => p.X >= xmin,
-                "RIGHT" => p.X <= xmax,
-                "BOTTOM" => p.Y >= ymin,
-                "TOP" => p.Y <= ymax,
-                _ => throw new ArgumentException("Invalid edge.")
-            };
+            FC_xn += (FC_xk - FC_xn) * (Wybot - FC_yn) / (FC_yk - FC_yn);
+            FC_yn = Wybot;
         }
 
-        private Point ComputeIntersection(Point p1, Point p2, string edge)
+        private static void Clip0_Right()
         {
-            if (edge == "LEFT")
-            {
-                int y = p1.Y + (p2.Y - p1.Y) * (xmin - p1.X) / (p2.X - p1.X);
-                return new Point(xmin, y);
-            }
-            if (edge == "RIGHT")
-            {
-                int y = p1.Y + (p2.Y - p1.Y) * (xmax - p1.X) / (p2.X - p1.X);
-                return new Point(xmax, y);
-            }
-            if (edge == "BOTTOM")
-            {
-                int x = p1.X + (p2.X - p1.X) * (ymin - p1.Y) / (p2.Y - p1.Y);
-                return new Point(x, ymin);
-            }
-            if (edge == "TOP")
-            {
-                int x = p1.X + (p2.X - p1.X) * (ymax - p1.Y) / (p2.Y - p1.Y);
-                return new Point(x, ymax);
-            }
-            throw new ArgumentException("Invalid edge.");
+            FC_yn += (FC_yk - FC_yn) * (Wxrig - FC_xn) / (FC_xk - FC_xn);
+            FC_xn = Wxrig;
         }
 
-        private List<Point> ClipEdge(List<Point> polygon, string edge)
+        private static void Clip0_Left()
         {
-            var clipped = new List<Point>();
+            FC_yn += (FC_yk - FC_yn) * (Wxlef - FC_xn) / (FC_xk - FC_xn);
+            FC_xn = Wxlef;
+        }
+
+        private static void Clip1_Top()
+        {
+            FC_xk += (FC_xn - FC_xk) * (Wytop - FC_yk) / (FC_yn - FC_yk);
+            FC_yk = Wytop;
+        }
+
+        private static void Clip1_Bottom()
+        {
+            FC_xk += (FC_xn - FC_xk) * (Wybot - FC_yk) / (FC_yn - FC_yk);
+            FC_yk = Wybot;
+        }
+
+        private static void Clip1_Right()
+        {
+            FC_yk += (FC_yn - FC_yk) * (Wxrig - FC_xk) / (FC_xn - FC_xk);
+            FC_xk = Wxrig;
+        }
+
+        private static void Clip1_Left()
+        {
+            FC_yk += (FC_yn - FC_yk) * (Wxlef - FC_xk) / (FC_xn - FC_xk);
+            FC_xk = Wxlef;
+        }
+
+        public static Point[] Clip(Point p1, Point p2)
+        {
+            int code = 0;
+            int visible = 0;
+
+            FC_xn = p1.X;
+            FC_yn = p1.Y;
+            FC_xk = p2.X;
+            FC_yk = p2.Y;
+
+            // Вычисление значения кода Code
+            if (FC_yk > Wytop) code += 8;
+            else if (FC_yk < Wybot) code += 4;
+
+            if (FC_xk > Wxrig) code += 2;
+            else if (FC_xk < Wxlef) code += 1;
+
+            if (FC_yn > Wytop) code += 128;
+            else if (FC_yn < Wybot) code += 64;
+
+            if (FC_xn > Wxrig) code += 32;
+            else if (FC_xn < Wxlef) code += 16;
+
+            // Обработка всех случаев
+            switch (code)
+            {
+                /* Из центра */
+                case 0x00:
+                    ++visible;
+                    break;
+                case 0x01:
+                    Clip1_Left();
+                    ++visible;
+                    break;
+                case 0x02:
+                    Clip1_Right();
+                    ++visible;
+                    break;
+                case 0x04:
+                    Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x05:
+                    Clip1_Left();
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x06:
+                    Clip1_Right();
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x08:
+                    Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x09:
+                    Clip1_Left();
+                    if (FC_yk > Wytop) Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x0A:
+                    Clip1_Right();
+                    if (FC_yk > Wytop) Clip1_Top();
+                    ++visible;
+                    break;
+
+                /* Слева */
+                case 0x10:
+                    Clip0_Left();
+                    ++visible;
+                    break;
+                case 0x11:
+                    break; // Отброшен
+                case 0x12:
+                    Clip0_Left();
+                    Clip1_Right();
+                    ++visible;
+                    break;
+                case 0x14:
+                    Clip0_Left();
+                    if (FC_yn < Wybot) break; // Отброшен
+                    Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x15:
+                    break; // Отброшен
+                case 0x16:
+                    Clip0_Left();
+                    if (FC_yn < Wybot) break; // Отброшен
+                    Clip1_Bottom();
+                    if (FC_xk > Wxrig) Clip1_Right();
+                    ++visible;
+                    break;
+                case 0x18:
+                    Clip0_Left();
+                    if (FC_yn > Wytop) break; // Отброшен
+                    Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x19:
+                    break; // Отброшен
+                case 0x1A:
+                    Clip0_Left();
+                    if (FC_yn > Wytop) break; // Отброшен
+                    Clip1_Top();
+                    if (FC_xk > Wxrig) Clip1_Right();
+                    ++visible;
+                    break;
+
+                /* Справа */
+                case 0x20:
+                    Clip0_Right();
+                    ++visible;
+                    break;
+                case 0x21:
+                    Clip0_Right();
+                    Clip1_Left();
+                    ++visible;
+                    break;
+                case 0x22:
+                    break; // Отброшен
+                case 0x24:
+                    Clip0_Right();
+                    if (FC_yn < Wybot) break; // Отброшен
+                    Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x25:
+                    Clip0_Right();
+                    if (FC_yn < Wybot) break; // Отброшен
+                    Clip1_Bottom();
+                    if (FC_xk < Wxlef) Clip1_Left();
+                    ++visible;
+                    break;
+                case 0x26:
+                    break; // Отброшен
+                case 0x28:
+                    Clip0_Right();
+                    if (FC_yn > Wytop) break; // Отброшен
+                    Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x29:
+                    Clip0_Right();
+                    if (FC_yn > Wytop) break; // Отброшен
+                    Clip1_Top();
+                    if (FC_xk < Wxlef) Clip1_Left();
+                    ++visible;
+                    break;
+                case 0x2A:
+                    break; // Отброшен
+
+                /* Снизу */
+                case 0x40:
+                    Clip0_Bottom();
+                    ++visible;
+                    break;
+                case 0x41:
+                    Clip0_Bottom();
+                    if (FC_xn < Wxlef) break; // Отброшен
+                    Clip1_Left();
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x42:
+                    Clip0_Bottom();
+                    if (FC_xn > Wxrig) break; // Отброшен
+                    Clip1_Right();
+                    ++visible;
+                    break;
+                case 0x44:
+                case 0x45:
+                case 0x46:
+                    break; // Отброшен
+                case 0x48:
+                    Clip0_Bottom();
+                    Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x49:
+                    Clip0_Bottom();
+                    if (FC_xn < Wxlef) break; // Отброшен
+                    Clip1_Left();
+                    if (FC_yk > Wytop) Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x4A:
+                    Clip0_Bottom();
+                    if (FC_xn > Wxrig) break; // Отброшен
+                    Clip1_Right();
+                    if (FC_yk > Wytop) Clip1_Top();
+                    ++visible;
+                    break;
+
+                /* Снизу слева */
+                case 0x50:
+                    Clip0_Left();
+                    if (FC_yn < Wybot) Clip0_Bottom();
+                    ++visible;
+                    break;
+                case 0x51:
+                    break; // Отброшен
+                case 0x52:
+                    Clip1_Right();
+                    if (FC_yk < Wybot) break; // Отброшен
+                    Clip0_Bottom();
+                    if (FC_xn < Wxlef) Clip0_Left();
+                    ++visible;
+                    break;
+                case 0x54:
+                case 0x55:
+                case 0x56:
+                    break; // Отброшен
+                case 0x58:
+                    Clip1_Top();
+                    if (FC_xk < Wxlef) break; // Отброшен
+                    Clip0_Bottom();
+                    if (FC_xn < Wxlef) Clip0_Left();
+                    ++visible;
+                    break;
+                case 0x59:
+                    break; // Отброшен
+                case 0x5A:
+                    Clip0_Left();
+                    if (FC_yn > Wytop) break; // Отброшен
+                    Clip1_Right();
+                    if (FC_yk < Wybot) break; // Отброшен
+                    if (FC_yn < Wybot) Clip0_Bottom();
+                    if (FC_yk > Wytop) Clip1_Top();
+                    ++visible;
+                    break;
+                case 0x60:
+                    Clip0_Right();
+                    if (FC_yn < Wybot) Clip0_Bottom();
+                    ++visible;
+                    break;
+                case 0x61:
+                    Clip1_Left();
+                    if (FC_yk < Wybot) break;       /* Отброшен */
+                    Clip0_Bottom();
+                    if (FC_xn > Wxrig) Clip0_Right();
+                    ++visible;
+                    break;
+                case 0x62:
+                case 0x64:
+                case 0x65:
+                case 0x66: break;                          /* Отброшен */
+                case 0x68:
+                    Clip1_Top();
+                    if (FC_xk > Wxrig) break;       /* Отброшен */
+                    Clip0_Right();
+                    if (FC_yn < Wybot) Clip0_Bottom();
+                    ++visible;
+                    break;
+                case 0x69:
+                    Clip1_Left();
+                    if (FC_yk < Wybot) break;       /* Отброшен */
+                    Clip0_Right();
+                    if (FC_yn > Wytop) break;       /* Отброшен */
+                    if (FC_yk > Wytop) Clip1_Top();
+                    if (FC_yn < Wybot) Clip0_Bottom();
+                    ++visible;
+                    break;
+                case 0x6A: break;                          /* Отброшен */
+
+
+                /* Сверху */
+
+                case 0x80:
+                    Clip0_Top();
+                    ++visible;
+                    break;
+                case 0x81:
+                    Clip0_Top();
+                    if (FC_xn < Wxlef) break;       /* Отброшен */
+                    Clip1_Left();
+                    ++visible;
+                    break;
+                case 0x82:
+                    Clip0_Top();
+                    if (FC_xn > Wxrig) break;       /* Отброшен */
+                    Clip1_Right();
+                    ++visible;
+                    break;
+                case 0x84:
+                    Clip0_Top();
+                    Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x85:
+                    Clip0_Top();
+                    if (FC_xn < Wxlef) break;       /* Отброшен */
+                    Clip1_Left();
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x86:
+                    Clip0_Top();
+                    if (FC_xn > Wxrig) break;       /* Отброшен */
+                    Clip1_Right();
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x88:
+                case 0x89:
+                case 0x8A: break;                          /* Отброшен */
+
+                /* Сверху-слева */
+
+                case 0x90:
+                    Clip0_Left();
+                    if (FC_yn > Wytop) Clip0_Top();
+                    ++visible;
+                    break;
+                case 0x91: break;                          /* Отброшен */
+                case 0x92:
+                    Clip1_Right();
+                    if (FC_yk > Wytop) break;       /* Отброшен */
+                    Clip0_Top();
+                    if (FC_xn < Wxlef) Clip0_Left();
+                    ++visible;
+                    break;
+                case 0x94:
+                    Clip1_Bottom();
+                    if (FC_xk < Wxlef) break;       /* Отброшен */
+                    Clip0_Left();
+                    if (FC_yn > Wytop) Clip0_Top();
+                    ++visible;
+                    break;
+                case 0x95: break;                          /* Отброшен */
+                case 0x96:
+                    Clip0_Left();
+                    if (FC_yn < Wybot) break;       /* Отброшен */
+                    Clip1_Right();
+                    if (FC_yk > Wytop) break;       /* Отброшен */
+                    if (FC_yn > Wytop) Clip0_Top();
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    ++visible;
+                    break;
+                case 0x98:
+                case 0x99:
+                case 0x9A: break;                          /* Отброшен */
+
+
+
+                /* Сверху-справа */
+
+                case 0xA0:
+                    Clip0_Right();
+                    if (FC_yn > Wytop) Clip0_Top();
+                    ++visible;
+                    break;
+                case 0xA1:
+                    Clip1_Left();
+                    if (FC_yk > Wytop) break;       /* Отброшен */
+                    Clip0_Top();
+                    if (FC_xn > Wxrig) Clip0_Right();
+                    ++visible;
+                    break;
+                case 0xA2: break;                          /* Отброшен */
+                case 0xA4:
+                    Clip1_Bottom();
+                    if (FC_xk > Wxrig) break;       /* Отброшен */
+                    Clip0_Right();
+                    if (FC_yn > Wytop) Clip0_Top();
+                    ++visible;
+                    break;
+                case 0xA5:
+                    Clip1_Left();
+                    if (FC_yk > Wytop) break;       /* Отброшен */
+                    Clip0_Right();
+                    if (FC_yn < Wybot) break;       /* Отброшен */
+                    if (FC_yk < Wybot) Clip1_Bottom();
+                    if (FC_yn > Wytop) Clip0_Top();
+                    ++visible;
+                    break;
+                case 0xA6:                                 /* Отброшен */
+                case 0xA8:
+                case 0xA9:
+                case 0xAA: break;
+                default:
+                    visible = -1;
+                    break;
+            }
+
+            // Если отрезок виден, возвращаем его новые координаты
+            if (visible > 0)
+            {
+                return new Point[]
+                {
+                new Point((int)FC_xn, (int)FC_yn),
+                new Point((int)FC_xk, (int)FC_yk)
+                };
+            }
+
+            // Если отрезок полностью вне окна
+            return null;
+        }
+
+        public static List<Point> ClipPolygon(List<Point> polygon)
+        {
+            List<Point> clippedPolygon = new List<Point>();
 
             for (int i = 0; i < polygon.Count; i++)
             {
                 Point p1 = polygon[i];
                 Point p2 = polygon[(i + 1) % polygon.Count];
 
-                bool p1Inside = IsInside(p1, edge);
-                bool p2Inside = IsInside(p2, edge);
+                Point[] clippedSegment = FastClipping.Clip(p1, p2);
 
-                if (p1Inside && p2Inside)
+                if (clippedSegment != null)
                 {
-                    clipped.Add(p2); // Оба конца внутри
+                    if (cmpPoint(p1, clippedSegment[0]) && cmpPoint(p2, clippedSegment[1])) clippedPolygon.Add(clippedSegment[1]);
+                    else
+                    {
+                        clippedPolygon.Add(clippedSegment[0]);
+                        clippedPolygon.Add(clippedSegment[1]);
+                    }
                 }
-                else if (p1Inside && !p2Inside)
+                else
                 {
-                    // P1 внутри, P2 снаружи
-                    Point intersection = ComputeIntersection(p1, p2, edge);
-                    clipped.Add(intersection);
+                    if (p2.X >= Wxrig && p2.Y <= Wybot)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxrig, (int)Wybot));
+                        continue;
+                    }
+                    if (p2.X >= Wxrig && p2.Y >= Wytop)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxrig, (int)Wytop));
+                        continue;
+                    }
+                    if (p2.X <= Wxlef && p2.Y >= Wytop)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxlef, (int)Wytop));
+                        continue;
+                    }
+                    if (p2.X <= Wxlef && p2.Y <= Wybot)
+                    {
+                        clippedPolygon.Add(new Point((int)Wxlef, (int)Wybot));
+                        continue;
+                    }
                 }
-                else if (!p1Inside && p2Inside)
+                /*if (ClipLine(ref x1, ref y1, ref x2, ref y2))
                 {
-                    // P1 снаружи, P2 внутри
-                    Point intersection = ComputeIntersection(p1, p2, edge);
-                    clipped.Add(intersection);
-                    clipped.Add(p2);
-                }
-                // Если оба снаружи, ничего не добавляем
+                // Добавляем отсечённое ребро в новый многоугольник
+                if (clippedPolygon.Count == 0 || clippedPolygon[^1] != new Point(x1, y1))
+                clippedPolygon.Add(new Point(x1, y1));
+
+                clippedPolygon.Add(new Point(x2, y2));
+                }*/
             }
 
-            return clipped;
+            return clippedPolygon;
         }
 
-        public List<Point> ClipPolygon(List<Point> polygon)
+        public static bool cmpPoint(Point a, Point b)
         {
-            List<Point> clipped = ClipEdge(polygon, "LEFT");
-            clipped = ClipEdge(clipped, "RIGHT");
-            clipped = ClipEdge(clipped, "BOTTOM");
-            clipped = ClipEdge(clipped, "TOP");
-
-            return clipped;
+            return a.X == b.X && b.Y == a.Y;
         }
     }
+
+
 
 }
