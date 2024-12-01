@@ -256,80 +256,113 @@ namespace KGLaba4
 
                 new Point(13 * 5 - 2, 9 * 5),
             };
-            Layout layout1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l1);
-            image.Add(layout1);
-            Layout layout2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l2);
-            image.Add(layout2);
-            Layout layout3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l3);
-            image.Add(layout3);
-            Layout layout4 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l4);
-            image.Add(layout4);
 
-            Layout layout5 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l5);
-            image.Add(layout5);
+            List<Point> la1 = new List<Point>
+            {
+                new Point(12 * 5, 6 * 5),
+                new Point(12 * 5, 12 * 5),
+                new Point(6 * 5, 12 * 5),
+                new Point(6 * 5, 6 * 5),
+            };
 
-            Layout layout6 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l6);
-            image.Add(layout6);
-            Layout layout7 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l7);
-            image.Add(layout7);
-            Layout layout8 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l8);
-            image.Add(layout8);
-            Layout layout9 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l9);
-            image.Add(layout9);
-            Layout layout10 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l10);
-            image.Add(layout10);
-            Layout layout11 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l11);
-            image.Add(layout11);
-            Layout layout12 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l12);
-            image.Add(layout12);
-            Layout layout13 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l13);
-            image.Add(layout13);
-            Layout layout14 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l14);
-            image.Add(layout14);
-            Layout layout15 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l15);
-            image.Add(layout15);
-            Layout layout16 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l16);
-            image.Add(layout16);
-            Layout layout17 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l17);
-            image.Add(layout17);
+            List<Point> la2 = new List<Point>
+            {
+                new Point(7 * 5, 7 * 5),
+                new Point(9 * 5, 7 * 5),
+                new Point(9 * 5, 20 * 5),
+                new Point(7 * 5, 20 * 5),
+            };
 
-            Layout layout18 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l18);
-            image.Add(layout18);
-            Layout layout19 = new Layout(Color.FromArgb(247, 213, 150), Color.Black, l19);
-            image.Add(layout19);
-            Layout layout20 = new Layout(Color.Black, Color.Black, l20);
-            image.Add(layout20);
-            Layout layout21 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l21);
-            image.Add(layout21);
+            //List<Point> la3 = new List<Point>
+            //{
+            //    new Point(14 * 5, 2 * 5),
+            //    new Point(2 * 5, 2 * 5),
+            //    new Point(2 * 5, 14 * 5),
+            //    new Point(14 * 5, 14 * 5),
+            //};
 
-            Layout layout22 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l22);
-            image.Add(layout22);
-            Layout layout23 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l23);
-            image.Add(layout23);
-            Layout layout24 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l24);
-            image.Add(layout24);
-            Layout layout25 = new Layout(Color.Black, Color.Black, l25);
-            image.Add(layout25);
-            Layout layout26 = new Layout(Color.Black, Color.Black, l26);
-            image.Add(layout26);
+            Layout layouta1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la1);
+            image.Add(layouta1);
+            Layout layouta2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la2);
+            image.Add(layouta2);
 
-            Layout layout27 = new Layout(Color.White, Color.Black, l27);
-            image.Add(layout27);
+            //Layout layouta3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la3);
+            //image.Add(layouta3);
 
-            Layout layout28 = new Layout(Color.White, Color.Black, l28);
-            image.Add(layout28);
+            //Layout layout1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l1);
+            //image.Add(layout1);
+            //Layout layout2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l2);
+            //image.Add(layout2);
+            //Layout layout3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l3);
+            //image.Add(layout3);
+            //Layout layout4 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l4);
+            //image.Add(layout4);
 
-            Layout layout29 = new Layout(Color.Black, Color.Black, l29);
-            image.Add(layout29);
+            //Layout layout5 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l5);
+            //image.Add(layout5);
 
-            Layout layout30 = new Layout(Color.White, Color.Black, l30);
-            image.Add(layout30);
+            //Layout layout6 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l6);
+            //image.Add(layout6);
+            //Layout layout7 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l7);
+            //image.Add(layout7);
+            //Layout layout8 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l8);
+            //image.Add(layout8);
+            //Layout layout9 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l9);
+            //image.Add(layout9);
+            //Layout layout10 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l10);
+            //image.Add(layout10);
+            //Layout layout11 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l11);
+            //image.Add(layout11);
+            //Layout layout12 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l12);
+            //image.Add(layout12);
+            //Layout layout13 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l13);
+            //image.Add(layout13);
+            //Layout layout14 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l14);
+            //image.Add(layout14);
+            //Layout layout15 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l15);
+            //image.Add(layout15);
+            //Layout layout16 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l16);
+            //image.Add(layout16);
+            //Layout layout17 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l17);
+            //image.Add(layout17);
 
-            Layout layout31 = new Layout(Color.White, Color.Black, l31);
-            image.Add(layout31);
+            //Layout layout18 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l18);
+            //image.Add(layout18);
+            //Layout layout19 = new Layout(Color.FromArgb(247, 213, 150), Color.Black, l19);
+            //image.Add(layout19);
+            //Layout layout20 = new Layout(Color.Black, Color.Black, l20);
+            //image.Add(layout20);
+            //Layout layout21 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l21);
+            //image.Add(layout21);
 
-            Layout layout32 = new Layout(Color.Black, Color.Black, l32);
-            image.Add(layout32);
+            //Layout layout22 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l22);
+            //image.Add(layout22);
+            //Layout layout23 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l23);
+            //image.Add(layout23);
+            //Layout layout24 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l24);
+            //image.Add(layout24);
+            //Layout layout25 = new Layout(Color.Black, Color.Black, l25);
+            //image.Add(layout25);
+            //Layout layout26 = new Layout(Color.Black, Color.Black, l26);
+            //image.Add(layout26);
+
+            //Layout layout27 = new Layout(Color.White, Color.Black, l27);
+            //image.Add(layout27);
+
+            //Layout layout28 = new Layout(Color.White, Color.Black, l28);
+            //image.Add(layout28);
+
+            //Layout layout29 = new Layout(Color.Black, Color.Black, l29);
+            //image.Add(layout29);
+
+            //Layout layout30 = new Layout(Color.White, Color.Black, l30);
+            //image.Add(layout30);
+
+            //Layout layout31 = new Layout(Color.White, Color.Black, l31);
+            //image.Add(layout31);
+
+            //Layout layout32 = new Layout(Color.Black, Color.Black, l32);
+            //image.Add(layout32);
             //Console.WriteLine("In polygon " + needVisable(layout2, new Point(17, 10)));
         }
 
@@ -607,8 +640,6 @@ namespace KGLaba4
                 Console.WriteLine("Введите корректное значение интервала (положительное число).");
             }
         }
-
-
         public static bool needVisable(Layout polygon, Point point)
         {
             for (int i = 0; i < polygon.vertexsInvisable.Count; i++)
@@ -681,44 +712,7 @@ namespace KGLaba4
             return new Point((int)ix, (int)iy);
         }
 
-        // Основной метод отсечения
-        public static List<Point> Clip(List<Point> subjectPolygon, List<Point> clipPolygon)
-        {
-            List<Point> outputList = new List<Point>(subjectPolygon);
-            Point cp1 = clipPolygon[clipPolygon.Count - 1];
-
-            foreach (Point cp2 in clipPolygon)
-            {
-                List<Point> inputList = new List<Point>(outputList);
-                outputList.Clear();
-
-                if (inputList.Count > 0)
-                {
-                    Point s = inputList[inputList.Count - 1];
-                    foreach (Point e in inputList)
-                    {
-                        if (Inside(e, cp1, cp2))
-                        {
-                            if (!Inside(s, cp1, cp2))
-                            {
-                                outputList.Add(Intersection(s, e, cp1, cp2));
-                            }
-                            outputList.Add(e);
-                        }
-                        else if (Inside(s, cp1, cp2))
-                        {
-                            outputList.Add(Intersection(s, e, cp1, cp2));
-                        }
-                        s = e;
-                    }
-
-                    cp1 = cp2;
-                }
-            }
-
-            return outputList;
-        }
-
+       
         private void button4_Click(object sender, EventArgs e)
         {
             if (int.TryParse(textBox2.Text, out int newScale) && newScale > 0)
@@ -773,6 +767,67 @@ namespace KGLaba4
             }
 
             pictureBox1.Image = bitmap;
+        }
+        //dop a1
+        public static List<Point> Clip(List<Point> polygon, List<Point> clippingPolygon)
+        {
+            Console.WriteLine($"polygon");
+            foreach (Point p in polygon)
+            {
+                Console.WriteLine($"Point: ({p.X}, {p.Y})");
+            }
+            Console.WriteLine($"clippingPolygon");
+            foreach (Point p in clippingPolygon)
+            {
+                Console.WriteLine($"Point: ({p.X}, {p.Y})");
+            }
+
+            List<Point> output = polygon;
+
+            for (int i = 0; i < clippingPolygon.Count; i++)
+            {
+                List<Point> input = output;
+                output = new List<Point>();
+
+                Point A = clippingPolygon[i];
+                Point B = clippingPolygon[(i + 1) % clippingPolygon.Count];
+
+                foreach (var currentPoint in input)
+                {
+                    Point P = currentPoint;
+                    Point Q = input[(input.IndexOf(P) + 1) % input.Count];
+
+                    if (IsInside(P, A, B))
+                    {
+                        if (!IsInside(Q, A, B))
+                        {
+                            Point intersection = Intersection(P, Q, A, B);
+                            output.Add(intersection);
+                            
+                        }
+                        output.Add(P);
+                    }
+                    else if (IsInside(Q, A, B))
+                    {
+                        Point intersection = Intersection(P, Q, A, B);
+                        output.Add(intersection);
+                        
+                    }
+                }
+            }
+            Console.WriteLine($"output");
+            foreach (Point p in output)
+            {
+                Console.WriteLine($"Point: ({p.X}, {p.Y})");
+            }
+
+            return output;
+        }
+
+        private static bool IsInside(Point p, Point A, Point B)
+        {
+            // Check if point p is inside the clipping edge defined by points A and B
+            return (B.X - A.X) * (p.Y - A.Y) - (B.Y - A.Y) * (p.X - A.X) >= 0;
         }
     }
 
