@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace KGLaba4
 {
@@ -31,7 +32,7 @@ namespace KGLaba4
             {
                 new Point(13 * 5, 23 * 5),
                 new Point(20 * 5, 14 * 5),
-                new Point(20 * 5, 23 * 5),
+                new Point(50 * 5, 70 * 5),
             };
 
             List<Point> l2 = new List<Point>
@@ -262,76 +263,76 @@ namespace KGLaba4
             image.Add(layout1);
             Layout layout2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l2);
             image.Add(layout2);
-            Layout layout3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l3);
-            image.Add(layout3);
-            Layout layout4 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l4);
-            image.Add(layout4);
+            //Layout layout3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l3);
+            //image.Add(layout3);
+            //Layout layout4 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l4);
+            //image.Add(layout4);
 
-            Layout layout5 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l5);
-            image.Add(layout5);
+            //Layout layout5 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l5);
+            //image.Add(layout5);
 
-            Layout layout6 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l6);
-            image.Add(layout6);
-            Layout layout7 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l7);
-            image.Add(layout7);
-            Layout layout8 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l8);
-            image.Add(layout8);
-            Layout layout9 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l9);
-            image.Add(layout9);
-            Layout layout10 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l10);
-            image.Add(layout10);
-            Layout layout11 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l11);
-            image.Add(layout11);
-            Layout layout12 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l12);
-            image.Add(layout12);
-            Layout layout13 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l13);
-            image.Add(layout13);
-            Layout layout14 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l14);
-            image.Add(layout14);
-            Layout layout15 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l15);
-            image.Add(layout15);
-            Layout layout16 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l16);
-            image.Add(layout16);
-            Layout layout17 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l17);
-            image.Add(layout17);
+            //Layout layout6 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l6);
+            //image.Add(layout6);
+            //Layout layout7 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l7);
+            //image.Add(layout7);
+            //Layout layout8 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l8);
+            //image.Add(layout8);
+            //Layout layout9 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l9);
+            //image.Add(layout9);
+            //Layout layout10 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l10);
+            //image.Add(layout10);
+            //Layout layout11 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l11);
+            //image.Add(layout11);
+            //Layout layout12 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l12);
+            //image.Add(layout12);
+            //Layout layout13 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l13);
+            //image.Add(layout13);
+            //Layout layout14 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l14);
+            //image.Add(layout14);
+            //Layout layout15 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l15);
+            //image.Add(layout15);
+            //Layout layout16 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l16);
+            //image.Add(layout16);
+            //Layout layout17 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l17);
+            //image.Add(layout17);
 
-            Layout layout18 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l18);
-            image.Add(layout18);
-            Layout layout19 = new Layout(Color.FromArgb(247, 213, 150), Color.Black, l19);
-            image.Add(layout19);
-            Layout layout20 = new Layout(Color.Black, Color.Black, l20);
-            image.Add(layout20);
-            Layout layout21 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l21);
-            image.Add(layout21);
+            //Layout layout18 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l18);
+            //image.Add(layout18);
+            //Layout layout19 = new Layout(Color.FromArgb(247, 213, 150), Color.Black, l19);
+            //image.Add(layout19);
+            //Layout layout20 = new Layout(Color.Black, Color.Black, l20);
+            //image.Add(layout20);
+            //Layout layout21 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l21);
+            //image.Add(layout21);
 
-            Layout layout22 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l22);
-            image.Add(layout22);
-            Layout layout23 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l23);
-            image.Add(layout23);
-            Layout layout24 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l24);
-            image.Add(layout24);
-            Layout layout25 = new Layout(Color.Black, Color.Black, l25);
-            image.Add(layout25);
-            Layout layout26 = new Layout(Color.Black, Color.Black, l26);
-            image.Add(layout26);
+            //Layout layout22 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l22);
+            //image.Add(layout22);
+            //Layout layout23 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l23);
+            //image.Add(layout23);
+            //Layout layout24 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l24);
+            //image.Add(layout24);
+            //Layout layout25 = new Layout(Color.Black, Color.Black, l25);
+            //image.Add(layout25);
+            //Layout layout26 = new Layout(Color.Black, Color.Black, l26);
+            //image.Add(layout26);
 
-            Layout layout27 = new Layout(Color.White, Color.Black, l27);
-            image.Add(layout27);
+            //Layout layout27 = new Layout(Color.White, Color.Black, l27);
+            //image.Add(layout27);
 
-            Layout layout28 = new Layout(Color.White, Color.Black, l28);
-            image.Add(layout28);
+            //Layout layout28 = new Layout(Color.White, Color.Black, l28);
+            //image.Add(layout28);
 
-            Layout layout29 = new Layout(Color.Black, Color.Black, l29);
-            image.Add(layout29);
+            //Layout layout29 = new Layout(Color.Black, Color.Black, l29);
+            //image.Add(layout29);
 
-            Layout layout30 = new Layout(Color.White, Color.Black, l30);
-            image.Add(layout30);
+            //Layout layout30 = new Layout(Color.White, Color.Black, l30);
+            //image.Add(layout30);
 
-            Layout layout31 = new Layout(Color.White, Color.Black, l31);
-            image.Add(layout31);
+            //Layout layout31 = new Layout(Color.White, Color.Black, l31);
+            //image.Add(layout31);
 
-            Layout layout32 = new Layout(Color.Black, Color.Black, l32);
-            image.Add(layout32);
+            //Layout layout32 = new Layout(Color.Black, Color.Black, l32);
+            //image.Add(layout32);
             //Console.WriteLine("In polygon " + needVisable(layout2, new Point(17, 10)));
         }
 
@@ -809,12 +810,14 @@ namespace KGLaba4
         {
             if (index == -1) layouts.Add(layout);
             else layouts.Insert(index, layout);
-            Clipping.Wxlef = mainLayout.vertexs[0].X;
-            Clipping.Wytop = mainLayout.vertexs[2].Y;
-
-            Clipping.Wxrig = mainLayout.vertexs[2].X;
-            Clipping.Wybot = mainLayout.vertexs[0].Y;
-            List<Point> clipper = Clipping.ClipPolygon(layout.vertexs);
+            var clippingPolygon = new List<Point>
+            {
+                new Point(0, 0),
+                new Point(150, 0),
+                new Point(150, 150),
+                new Point(75, 100),
+            };
+            List<Point> clipper = ClippingCyrus.ClipPolygon(layout.vertexs, clippingPolygon);
             layout.visable.AddRange(clipper);
 
             // TODO: переделать с добавление по индексу (заслонять только слои под ним
@@ -1038,6 +1041,94 @@ namespace KGLaba4
 
     }
 
+    public class ClippingCyrus
+    {
+        public static List<Point> ClipPolygon(List<Point> polygon, List<Point> clippingPolygon)
+        {
+            // Выполняем обрезание многоугольника
+            var resultVertices = new List<Point>(polygon);
+
+            for (int i = 0; i < clippingPolygon.Count; i++)
+            {
+                Point p1 = clippingPolygon[i];
+                Point p2 = clippingPolygon[(i + 1) % clippingPolygon.Count];
+
+                // Вектор нормали к текущему ребру
+                float edgeDx = p2.X - p1.X;
+                float edgeDy = p2.Y - p1.Y;
+                float nx = -edgeDy;
+                float ny = edgeDx;
+
+                // Текущие вершины для обработки
+                var inputVertices = resultVertices;
+                resultVertices = new List<Point>();
+
+                if (inputVertices.Count == 0)
+                    break;
+
+                var prevVertex = inputVertices[inputVertices.Count - 1];
+                float prevDx = prevVertex.X - p1.X;
+                float prevDy = prevVertex.Y - p1.Y;
+                float prevDot = nx * prevDx + ny * prevDy; // Проекция на нормаль (знак определяет положение точки)
+
+                foreach (var currentVertex in inputVertices)
+                {
+                    // Текущее положение относительно нормали
+                    float currentDx = currentVertex.X - p1.X;
+                    float currentDy = currentVertex.Y - p1.Y;
+                    float currentDot = nx * currentDx + ny * currentDy;
+
+                    if (currentDot >= 0)
+                    {
+                        // Если текущая вершина внутри (слева от ребра)
+                        if (prevDot < 0)
+                        {
+                            // Если предыдущая вершина снаружи, добавляем точку пересечения
+                            resultVertices.Add(IntersectEdge(p1, p2, prevVertex, currentVertex));
+                        }
+
+                        // Добавляем текущую вершину
+                        resultVertices.Add(currentVertex);
+                    }
+                    else if (prevDot >= 0)
+                    {
+                        // Если текущая вершина снаружи, но предыдущая внутри, добавляем точку пересечения
+                        resultVertices.Add(IntersectEdge(p1, p2, prevVertex, currentVertex));
+                    }
+
+                    // Сдвигаем текущую вершину в предыдущую
+                    prevVertex = currentVertex;
+                    prevDot = currentDot;
+                }
+            }
+
+            return resultVertices;
+        }
+        // Метод для нахождения точки пересечения двух отрезков
+        private static Point IntersectEdge(Point p1, Point p2, Point q1, Point q2)
+        {
+            float a1 = p2.Y - p1.Y;
+            float b1 = p1.X - p2.X;
+            float c1 = a1 * p1.X + b1 * p1.Y;
+
+            float a2 = q2.Y - q1.Y;
+            float b2 = q1.X - q2.X;
+            float c2 = a2 * q1.X + b2 * q1.Y;
+
+            float det = a1 * b2 - a2 * b1;
+
+            if (Math.Abs(det) < 1e-6)
+            {
+                // Отрезки параллельны
+                return q1;
+            }
+
+            float x = (b2 * c1 - b1 * c2) / det;
+            float y = (a1 * c2 - a2 * c1) / det;
+
+            return new Point((int)x, (int)y);
+        }
+    }
     public class PointComparer : IEqualityComparer<Point>
     {
         public bool Equals(Point p1, Point p2)
