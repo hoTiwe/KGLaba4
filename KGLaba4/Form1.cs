@@ -267,27 +267,26 @@ namespace KGLaba4
 
             List<Point> la2 = new List<Point>
             {
-                new Point(7 * 5, 7 * 5),
-                new Point(9 * 5, 7 * 5),
-                new Point(9 * 5, 20 * 5),
-                new Point(7 * 5, 20 * 5),
+                new Point(9 * 5, 9 * 5),
+                new Point(15 * 5, 7 * 5),
+                new Point(15 * 5, 15 * 5),
             };
 
-            //List<Point> la3 = new List<Point>
-            //{
-            //    new Point(14 * 5, 2 * 5),
-            //    new Point(2 * 5, 2 * 5),
-            //    new Point(2 * 5, 14 * 5),
-            //    new Point(14 * 5, 14 * 5),
-            //};
+            List<Point> la3 = new List<Point>
+            {
+                new Point(10 * 5, 10 * 5),
+                new Point(12 * 5, 10 * 5),
+                new Point(12 * 5, 16 * 5),
+                new Point(10 * 5, 14 * 5),
+            };
 
             Layout layouta1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la1);
             image.Add(layouta1);
             Layout layouta2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la2);
             image.Add(layouta2);
 
-            //Layout layouta3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la3);
-            //image.Add(layouta3);
+            Layout layouta3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la3);
+            image.Add(layouta3);
 
             //Layout layout1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l1);
             //image.Add(layout1);
@@ -673,7 +672,7 @@ namespace KGLaba4
                 // Проверка, лежит ли точка на одном из ребер
                 if (IsPointOnSegment(p, polygon[i], polygon[j]))
                 {
-                    return true;  // Точка лежит на ребре
+                    return false;  // Точка лежит на ребре
                 }
 
                 // Проверяем, пересекает ли горизонтальный луч, исходящий от точки p
@@ -771,17 +770,6 @@ namespace KGLaba4
         //dop a1
         public static List<Point> Clip(List<Point> polygon, List<Point> clippingPolygon)
         {
-            Console.WriteLine($"polygon");
-            foreach (Point p in polygon)
-            {
-                Console.WriteLine($"Point: ({p.X}, {p.Y})");
-            }
-            Console.WriteLine($"clippingPolygon");
-            foreach (Point p in clippingPolygon)
-            {
-                Console.WriteLine($"Point: ({p.X}, {p.Y})");
-            }
-
             List<Point> output = polygon;
 
             for (int i = 0; i < clippingPolygon.Count; i++)
@@ -829,6 +817,136 @@ namespace KGLaba4
             // Check if point p is inside the clipping edge defined by points A and B
             return (B.X - A.X) * (p.Y - A.Y) - (B.Y - A.Y) * (p.X - A.X) >= 0;
         }
+
+        //dop a1 ezhe raz
+        public static List<Point> WeilerAtherton(List<Point> subjectPolygon, List<Point> clipPolygon)
+        {
+            List<Point> resultPolygon = new List<Point>();
+            Dictionary<Point, List<Point>> intersections = new Dictionary<Point, List<Point>>();
+
+            // Найти все пересечения между subjectPolygon и clipPolygon
+            for (int i = 0; i < subjectPolygon.Count; i++)
+            {
+                Point s1 = subjectPolygon[i];
+                Point s2 = subjectPolygon[(i + 1) % subjectPolygon.Count];
+
+                for (int j = 0; j < clipPolygon.Count; j++)
+                {
+                    Point c1 = clipPolygon[j];
+                    Point c2 = clipPolygon[(j + 1) % clipPolygon.Count];
+                    if (LinesIntersect(s1, s2, c1, c2, out Point intersection))
+                    {
+                        if (!intersections.ContainsKey(intersection))
+                        {
+                            intersections[intersection] = new List<Point>();
+                        }
+                        intersections[intersection].Add(s1);
+                        intersections[intersection].Add(s2);
+                    }
+                }
+            }
+
+            // Построить результирующий полигон
+            HashSet<Point> visited = new HashSet<Point>();
+
+            foreach (Point start in subjectPolygon)
+            {
+                if (!visited.Contains(start))
+                {
+                    List<Point> currentPath = new List<Point>();
+                    Point currentPoint = start;
+                    bool isInside = IsInside(currentPoint, clipPolygon);
+                    //bool isInside = Inside(currentPoint, );
+                    while (!visited.Contains(currentPoint))
+                    {
+                        visited.Add(currentPoint);
+                        currentPath.Add(currentPoint);
+
+                        // Найти следующий сегмент
+                        if (intersections.ContainsKey(currentPoint))
+                        {
+                            foreach (Point next in intersections[currentPoint])
+                            {
+                                if (!visited.Contains(next))
+                                {
+                                    currentPoint = next;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentPoint = GetNextPoint(currentPoint, subjectPolygon);
+                        }
+                    }
+
+                    if (isInside)
+                    {
+                        resultPolygon.AddRange(currentPath);
+                    }
+                }
+            }
+            return resultPolygon;
+        }
+        private static Point GetNextPoint(Point current, List<Point> polygon)
+        {
+            int index = polygon.IndexOf(current);
+            return polygon[(index + 1) % polygon.Count];
+        }
+
+        private static bool LinesIntersect(Point s1, Point s2, Point c1, Point c2, out Point intersection)
+        {
+            intersection = new Point();
+
+            // Вектора отрезков
+            float dcX = c1.X - c2.X;
+            float dcY = c1.Y - c2.Y;
+            float dpX = s1.X - s2.X;
+            float dpY = s1.Y - s2.Y;
+
+            // Определитель (проверка на параллельность)
+            float denominator = dcX * dpY - dcY * dpX;
+            if (Math.Abs(denominator) < 1e-6) // Сравнение с нулём для чисел с плавающей точкой
+            {
+                return false; // Отрезки параллельны или совпадают
+            }
+
+            // Найти точку пересечения
+            float t1 = ((c1.X - s1.X) * dpY - (c1.Y - s1.Y) * dpX) / denominator;
+            float t2 = ((c1.X - s1.X) * dcY - (c1.Y - s1.Y) * dcX) / denominator;
+
+            // Проверка, лежит ли пересечение на обоих отрезках
+            if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1)
+            {
+                intersection = Intersection(s1, s2, c1, c2);
+                return true;
+            }
+
+            return false; // Пересечение не лежит на обоих отрезках
+        }
+
+        private static bool IsInside(Point point, List<Point> polygon)
+        {
+            int crossings = 0;
+            int count = polygon.Count;
+            for (int i = 0; i < count; i++)
+            {
+                Point v1 = polygon[i];
+                Point v2 = polygon[(i + 1) % count]; // Следующая вершина (циклически)
+
+                // Проверяем, пересекает ли горизонтальный луч ребро полигона
+                if (((v1.Y > point.Y) != (v2.Y > point.Y)) &&
+                    (point.X < (v2.X - v1.X) * (point.Y - v1.Y) / (v2.Y - v1.Y) + v1.X))
+                {
+                    crossings++;
+                }
+            }
+
+            // Точка внутри, если количество пересечений нечётное
+            return crossings % 2 != 0;
+        }
+
+
     }
 
     public partial class Image {
