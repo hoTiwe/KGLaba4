@@ -24,344 +24,36 @@ namespace KGLaba4
             InitializeComponent();
             image = new Image(new Layout(Color.Red, Color.Black, new List<Point> { new Point(0, 0), new Point(500, 0), new Point(500, 500), new Point(0, 500) }));
 
-
-            List<Point> l1 = new List<Point>
-            {
-                new Point(13 * 5, 23 * 5),
-                new Point(20 * 5, 14 * 5),
-                new Point(20 * 5, 23 * 5),
-            };
-
-            List<Point> l2 = new List<Point>
-            {
-                new Point(13 * 5, 23 * 5),
-                new Point(13 * 5, 13 * 5),
-                new Point(20 * 5, 14 * 5),
-            };
-            List<Point> l3 = new List<Point>
-            {
-                new Point(4 * 5, 22 * 5),
-                new Point(13 * 5, 13 * 5),
-                new Point(13 * 5, 23 * 5),
-            };
-            List<Point> l4 = new List<Point>
-            {
-                new Point(13 * 5, 13 * 5),
-                new Point(19 * 5, 7 * 5),
-                new Point(20 * 5, 14 * 5),
-            };
-
-            List<Point> l5 = new List<Point>
-            {
-                new Point(13 * 5, 13 * 5),
-                new Point(17 * 5, 6 * 5),
-                new Point(19 * 5, 7 * 5),
-            };
-            List<Point> l6 = new List<Point>
-            {
-                new Point(19 * 5, 7 * 5),
-                new Point(17 * 5, 6 * 5),
-                new Point(19 * 5, 5 * 5),
-            };
-            List<Point> l7 = new List<Point>
-            {
-                new Point(13 * 5, 13 * 5),
-                new Point(14 * 5, 5 * 5),
-
-                new Point(17 * 5, 6 * 5),
-            };
-
-            List<Point> l8 = new List<Point>
-            {
-                new Point(17 * 5, 6 * 5),
-
-                new Point(18 * 5, 1 * 5),
-                new Point(20 * 5, 5 * 5),
-
-            };
-            List<Point> l9 = new List<Point>
-            {
-                new Point(14 * 5, 5 * 5),
-                new Point(18 * 5, 1 * 5),
-                new Point(17 * 5, 6 * 5),
-            };
-            List<Point> l10 = new List<Point>
-            {
-                new Point(14 * 5, 5 * 5),
-                new Point(12 * 5, 4 * 5),
-                new Point(16 * 5, 4 * 5),
-            };
-
-            List<Point> l11 = new List<Point>
-            {
-                new Point(13 * 5, 13 * 5),
-                new Point(4 * 5, 12 * 5),
-                new Point(14 * 5, 5 * 5),
-            };
-
-            List<Point> l12 = new List<Point>
-            {
-                new Point(7 * 5, 19 * 5),
-                new Point(6 * 5, 15 * 5),
-                new Point(13 * 5, 13 * 5),
-            };
-
-            List<Point> l13 = new List<Point>
-            {
-                new Point(7 * 5, 19 * 5),
-                new Point(4 * 5, 16 * 5),
-                new Point(6 * 5, 15 * 5),
-            };
-
-            List<Point> l14 = new List<Point>
-            {
-                new Point(4 * 5, 16 * 5),
-
-                new Point(4 * 5, 12 * 5),
-                new Point(13 * 5, 13 * 5),
-            };
-            List<Point> l15 = new List<Point>
-            {
-                new Point(4 * 5, 12 * 5),
-                new Point(6 * 5, 5 * 5),
-                new Point(11 * 5, 7 * 5),
-            };
-            List<Point> l16 = new List<Point>
-            {
-                new Point(11 * 5, 7 * 5),
-                new Point(6 * 5, 5 * 5),
-
-                new Point(12 * 5, 4 * 5),
-            };
-            List<Point> l17 = new List<Point>
-            {
-                new Point(11 * 5, 7 * 5),
-                new Point(12 * 5, 4 * 5),
-
-                new Point(14 * 5, 5 * 5),
-            };
-
-            List<Point> l18 = new List<Point>
-            {
-                new Point(7 * 5, 5 * 5),
-                new Point(9 * 5, 2 * 5),
-
-                new Point(12 * 5, 4 * 5),
-            };
-
-            List<Point> l19 = new List<Point>
-            {
-                new Point(16 * 5, 5 * 5 - 1),
-                new Point(18 * 5, 2 * 5),
-
-                new Point(19 * 5 - 1, 5 * 5 - 1),
-            };
-
-            List<Point> l20 = new List<Point>
-            {
-                new Point(6 * 5, 13 * 5 + 1 ),
-                new Point(10 * 5, 13 * 5 + 1),
-
-                new Point(8 * 5, 14 * 5),
-            };
-
-            List<Point> l21 = new List<Point>
-            {
-                new Point(5 * 5 + 1, 13 * 5 -1 ),
-                new Point(5 * 5 + 1, 11 * 5 - 1),
-
-                new Point(7 * 5 + 1, 13 * 5 - 1 ),
-            };
-
-            List<Point> l22 = new List<Point>
-            {
-                new Point(7 * 5 + 1, 13 * 5 - 1 ),
-
-                new Point(10 * 5 + 1, 11 * 5 -1 ),
-                new Point(10 * 5 + 1, 13 * 5 - 1),
-
-            };
-            List<Point> l23 = new List<Point>
-            {
-                new Point(7 * 5 + 1, 13 * 5 - 1 ),
-                new Point(5 * 5 + 1, 11 * 5 - 1),
-                new Point(7 * 5 + 1, 10 * 5 - 1),
-            };
-            List<Point> l24 = new List<Point>
-            {
-                new Point(7 * 5 + 1, 13 * 5 - 1 ),
-                new Point(7 * 5 + 1, 10 * 5 - 1),
-
-                new Point(10 * 5 + 1, 11 * 5 - 1),
-            };
-
-            List<Point> l25 = new List<Point>
-            {
-                new Point(7 * 5 + 1, 13 * 5 - 1 ),
-                new Point(6 * 5 + 1, 11 * 5 - 1),
-                new Point(7 * 5 + 1, 10 * 5 - 1),
-            };
-            List<Point> l26 = new List<Point>
-            {
-                new Point(7 * 5 + 1, 13 * 5 - 1 ),
-                new Point(7 * 5 + 1, 10 * 5 - 1),
-
-                new Point(8 * 5 + 1, 11 * 5 - 1),
-            };
-
-            List<Point> l27 = new List<Point>
-            {
-                new Point(7 * 5, 9 * 5 ),
-                new Point(6 * 5, 8 * 5),
-
-                new Point(7 * 5, 7 * 5),
-            };
-
-            List<Point> l28 = new List<Point>
-            {
-                new Point(7 * 5, 9 * 5 ),
-                new Point(7 * 5, 7 * 5),
-
-                new Point(8 * 5, 8 * 5),
-            };
-
-            List<Point> l29 = new List<Point>
-            {
-                new Point(7 * 5 - 2, 8 * 5 ),
-                new Point(7 * 5 , 8 * 5 - 2),
-
-                new Point(8 * 5 - 2, 8 * 5),
-            };
-
-            List<Point> l30 = new List<Point>
-            {
-                new Point(12 * 5, 10 * 5 ),
-                new Point(11 * 5, 9 * 5),
-
-                new Point(12 * 5, 8 * 5),
-            };
-
-            List<Point> l31 = new List<Point>
-            {
-                new Point(12 * 5, 10 * 5 ),
-                new Point(12 * 5, 8 * 5),
-
-                new Point(14 * 5, 9 * 5 ),
-            };
-
-            List<Point> l32 = new List<Point>
-            {
-                new Point(12 * 5, 9 * 5),
-                new Point(12 * 5 + 2, 9 * 5 - 2),
-
-                new Point(13 * 5 - 2, 9 * 5),
-            };
-
             List<Point> la1 = new List<Point>
             {
                 new Point(12 * 5, 6 * 5),
                 new Point(12 * 5, 12 * 5),
                 new Point(6 * 5, 12 * 5),
-                new Point(6 * 5, 6 * 5),
             };
 
             List<Point> la2 = new List<Point>
             {
-                new Point(9 * 5, 9 * 5),
-                new Point(15 * 5, 7 * 5),
-                new Point(15 * 5, 15 * 5),
+                new Point(10 * 5, 10 * 5),
+                new Point(10 * 5, 15 * 5),
+                new Point(15 * 5, 10 * 5),
             };
 
             List<Point> la3 = new List<Point>
             {
-                new Point(10 * 5, 10 * 5),
-                new Point(12 * 5, 10 * 5),
-                new Point(12 * 5, 16 * 5),
-                new Point(10 * 5, 14 * 5),
+                new Point(9 * 5, 5*5),
+                new Point(13 * 5, 18 * 5),
+                new Point(5 * 5, 7 * 5),
             };
 
             Layout layouta1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la1);
             image.Add(layouta1);
-            Layout layouta2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la2);
-            image.Add(layouta2);
 
             Layout layouta3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la3);
             image.Add(layouta3);
 
-            //Layout layout1 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l1);
-            //image.Add(layout1);
-            //Layout layout2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l2);
-            //image.Add(layout2);
-            //Layout layout3 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l3);
-            //image.Add(layout3);
-            //Layout layout4 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l4);
-            //image.Add(layout4);
+            Layout layouta2 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, la2);
+            image.Add(layouta2);
 
-            //Layout layout5 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l5);
-            //image.Add(layout5);
-
-            //Layout layout6 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l6);
-            //image.Add(layout6);
-            //Layout layout7 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l7);
-            //image.Add(layout7);
-            //Layout layout8 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l8);
-            //image.Add(layout8);
-            //Layout layout9 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l9);
-            //image.Add(layout9);
-            //Layout layout10 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l10);
-            //image.Add(layout10);
-            //Layout layout11 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l11);
-            //image.Add(layout11);
-            //Layout layout12 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l12);
-            //image.Add(layout12);
-            //Layout layout13 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l13);
-            //image.Add(layout13);
-            //Layout layout14 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l14);
-            //image.Add(layout14);
-            //Layout layout15 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l15);
-            //image.Add(layout15);
-            //Layout layout16 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l16);
-            //image.Add(layout16);
-            //Layout layout17 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l17);
-            //image.Add(layout17);
-
-            //Layout layout18 = new Layout(Color.FromArgb(244, 200, 111), Color.Black, l18);
-            //image.Add(layout18);
-            //Layout layout19 = new Layout(Color.FromArgb(247, 213, 150), Color.Black, l19);
-            //image.Add(layout19);
-            //Layout layout20 = new Layout(Color.Black, Color.Black, l20);
-            //image.Add(layout20);
-            //Layout layout21 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l21);
-            //image.Add(layout21);
-
-            //Layout layout22 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l22);
-            //image.Add(layout22);
-            //Layout layout23 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l23);
-            //image.Add(layout23);
-            //Layout layout24 = new Layout(Color.FromArgb(255, 247, 202), Color.Black, l24);
-            //image.Add(layout24);
-            //Layout layout25 = new Layout(Color.Black, Color.Black, l25);
-            //image.Add(layout25);
-            //Layout layout26 = new Layout(Color.Black, Color.Black, l26);
-            //image.Add(layout26);
-
-            //Layout layout27 = new Layout(Color.White, Color.Black, l27);
-            //image.Add(layout27);
-
-            //Layout layout28 = new Layout(Color.White, Color.Black, l28);
-            //image.Add(layout28);
-
-            //Layout layout29 = new Layout(Color.Black, Color.Black, l29);
-            //image.Add(layout29);
-
-            //Layout layout30 = new Layout(Color.White, Color.Black, l30);
-            //image.Add(layout30);
-
-            //Layout layout31 = new Layout(Color.White, Color.Black, l31);
-            //image.Add(layout31);
-
-            //Layout layout32 = new Layout(Color.Black, Color.Black, l32);
-            //image.Add(layout32);
             //Console.WriteLine("In polygon " + needVisable(layout2, new Point(17, 10)));
         }
 
@@ -711,7 +403,6 @@ namespace KGLaba4
             return new Point((int)ix, (int)iy);
         }
 
-       
         private void button4_Click(object sender, EventArgs e)
         {
             if (int.TryParse(textBox2.Text, out int newScale) && newScale > 0)
@@ -768,63 +459,73 @@ namespace KGLaba4
             pictureBox1.Image = bitmap;
         }
         //dop a1
-        public static List<Point> Clip(List<Point> polygon, List<Point> clippingPolygon)
+
+        public static List<List<Point>> ClipPolygon(List<Point> subjectPolygon, List<Point> clipPolygon)
         {
-            List<Point> output = polygon;
+            List<List<Point>> resultPolygons = new List<List<Point>>();
 
-            for (int i = 0; i < clippingPolygon.Count; i++)
+            // Шаг 1: Найти точки пересечения
+            List<Point> intersections = FindIntersections(subjectPolygon, clipPolygon);
+
+            // Шаг 2: Создать списки вершин и точек пересечения
+            List<Point> currentPolygon = new List<Point>();
+            List<Point> enteringIntersections = new List<Point>();
+            List<Point> exitingIntersections = new List<Point>();
+
+            foreach (Point intersection in intersections)
             {
-                List<Point> input = output;
-                output = new List<Point>();
-
-                Point A = clippingPolygon[i];
-                Point B = clippingPolygon[(i + 1) % clippingPolygon.Count];
-
-                foreach (var currentPoint in input)
+                // Определить, является ли точка входящей или выходящей
+                if (IsEntering(intersection, subjectPolygon))
                 {
-                    Point P = currentPoint;
-                    Point Q = input[(input.IndexOf(P) + 1) % input.Count];
+                    enteringIntersections.Add(intersection);
+                }
+                else
+                {
+                    exitingIntersections.Add(intersection);
+                }
+            }
 
-                    if (IsInside(P, A, B))
+            // Шаг 3: Обход вершин обрабатываемого многоугольника
+            for (int i = 0; i < subjectPolygon.Count; i++)
+            {
+                Point current = subjectPolygon[i];
+                currentPolygon.Add(current);
+
+                if (intersections.Contains(current))
+                {
+                    if (enteringIntersections.Contains(current))
                     {
-                        if (!IsInside(Q, A, B))
-                        {
-                            Point intersection = Intersection(P, Q, A, B);
-                            output.Add(intersection);
-                            
-                        }
-                        output.Add(P);
-                    }
-                    else if (IsInside(Q, A, B))
-                    {
-                        Point intersection = Intersection(P, Q, A, B);
-                        output.Add(intersection);
-                        
+                        // Если точка входа, начинаем новый полигон
+                        resultPolygons.Add(new List<Point>(currentPolygon));
+                        currentPolygon.Clear();
                     }
                 }
             }
-            Console.WriteLine($"output");
-            foreach (Point p in output)
+
+            // Повторение процесса для отсекающего многоугольника
+            for (int i = 0; i < clipPolygon.Count; i++)
             {
-                Console.WriteLine($"Point: ({p.X}, {p.Y})");
+                Point current = clipPolygon[i];
+                currentPolygon.Add(current);
+
+                if (intersections.Contains(current))
+                {
+                    if (enteringIntersections.Contains(current))
+                    {
+                        // Начинаем новый полигон для отсекающего многоугольника
+                        resultPolygons.Add(new List<Point>(currentPolygon));
+                        currentPolygon.Clear();
+                    }
+                }
             }
 
-            return output;
+            return resultPolygons;
         }
 
-        private static bool IsInside(Point p, Point A, Point B)
+        private static List<Point> FindIntersections(List<Point> subjectPolygon, List<Point> clipPolygon)
         {
-            // Check if point p is inside the clipping edge defined by points A and B
-            return (B.X - A.X) * (p.Y - A.Y) - (B.Y - A.Y) * (p.X - A.X) >= 0;
-        }
+            List<Point> intersections = new List<Point>();
 
-        //dop a1 ezhe raz
-        public static List<Point> WeilerAtherton(List<Point> subjectPolygon, List<Point> clipPolygon)
-        {
-            List<Point> resultPolygon = new List<Point>();
-            Dictionary<Point, List<Point>> intersections = new Dictionary<Point, List<Point>>();
-
-            // Найти все пересечения между subjectPolygon и clipPolygon
             for (int i = 0; i < subjectPolygon.Count; i++)
             {
                 Point s1 = subjectPolygon[i];
@@ -834,116 +535,68 @@ namespace KGLaba4
                 {
                     Point c1 = clipPolygon[j];
                     Point c2 = clipPolygon[(j + 1) % clipPolygon.Count];
-                    if (LinesIntersect(s1, s2, c1, c2, out Point intersection))
+
+                    if (DoLinesIntersect(s1, s2, c1, c2, out Point intersection))
                     {
-                        if (!intersections.ContainsKey(intersection))
+                        if (!intersections.Contains(intersection))
                         {
-                            intersections[intersection] = new List<Point>();
+                            intersections.Add(intersection);
                         }
-                        intersections[intersection].Add(s1);
-                        intersections[intersection].Add(s2);
                     }
                 }
             }
-
-            // Построить результирующий полигон
-            HashSet<Point> visited = new HashSet<Point>();
-
-            foreach (Point start in subjectPolygon)
-            {
-                if (!visited.Contains(start))
-                {
-                    List<Point> currentPath = new List<Point>();
-                    Point currentPoint = start;
-                    bool isInside = IsInside(currentPoint, clipPolygon);
-                    //bool isInside = Inside(currentPoint, );
-                    while (!visited.Contains(currentPoint))
-                    {
-                        visited.Add(currentPoint);
-                        currentPath.Add(currentPoint);
-
-                        // Найти следующий сегмент
-                        if (intersections.ContainsKey(currentPoint))
-                        {
-                            foreach (Point next in intersections[currentPoint])
-                            {
-                                if (!visited.Contains(next))
-                                {
-                                    currentPoint = next;
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            currentPoint = GetNextPoint(currentPoint, subjectPolygon);
-                        }
-                    }
-
-                    if (isInside)
-                    {
-                        resultPolygon.AddRange(currentPath);
-                    }
-                }
-            }
-            return resultPolygon;
-        }
-        private static Point GetNextPoint(Point current, List<Point> polygon)
-        {
-            int index = polygon.IndexOf(current);
-            return polygon[(index + 1) % polygon.Count];
+            return intersections;
         }
 
-        private static bool LinesIntersect(Point s1, Point s2, Point c1, Point c2, out Point intersection)
+        public static bool DoLinesIntersect(Point s1, Point s2, Point c1, Point c2, out Point intersection)
         {
             intersection = new Point();
 
-            // Вектора отрезков
-            float dcX = c1.X - c2.X;
-            float dcY = c1.Y - c2.Y;
-            float dpX = s1.X - s2.X;
-            float dpY = s1.Y - s2.Y;
+            double d1x = s2.X - s1.X;
+            double d1y = s2.Y - s1.Y;
+            double d2x = c2.X - c1.X;
+            double d2y = c2.Y - c1.Y;
 
-            // Определитель (проверка на параллельность)
-            float denominator = dcX * dpY - dcY * dpX;
-            if (Math.Abs(denominator) < 1e-6) // Сравнение с нулём для чисел с плавающей точкой
+            double denominator = d1x * d2y - d1y * d2x;
+            if (Math.Abs(denominator) < 1e-10) // Проверка на параллельность с учетом погрешности
             {
-                return false; // Отрезки параллельны или совпадают
+                return false; // Параллельные линии
             }
 
-            // Найти точку пересечения
-            float t1 = ((c1.X - s1.X) * dpY - (c1.Y - s1.Y) * dpX) / denominator;
-            float t2 = ((c1.X - s1.X) * dcY - (c1.Y - s1.Y) * dcX) / denominator;
+            double t = ((c1.X - s1.X) * d2y - (c1.Y - s1.Y) * d2x) / denominator;
+            double u = ((c1.X - s1.X) * d1y - (c1.Y - s1.Y) * d1x) / denominator;
 
-            // Проверка, лежит ли пересечение на обоих отрезках
-            if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1)
+            // Проверка, что точки пересечения лежат в пределах отрезков
+            if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
             {
-                intersection = Intersection(s1, s2, c1, c2);
+                intersection.X = (int)(s1.X + t * d1x);
+                intersection.Y = (int)(s1.Y + t * d1y);
                 return true;
             }
 
-            return false; // Пересечение не лежит на обоих отрезках
+            return false;
         }
 
-        private static bool IsInside(Point point, List<Point> polygon)
+        private static bool IsEntering(Point point, List<Point> polygon)
         {
+            // Определяем, находится ли точка внутри многоугольника, чтобы определить, является ли она входящей или выходящей.
             int crossings = 0;
-            int count = polygon.Count;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < polygon.Count; i++)
             {
-                Point v1 = polygon[i];
-                Point v2 = polygon[(i + 1) % count]; // Следующая вершина (циклически)
+                Point current = polygon[i];
+                Point next = polygon[(i + 1) % polygon.Count];
 
-                // Проверяем, пересекает ли горизонтальный луч ребро полигона
-                if (((v1.Y > point.Y) != (v2.Y > point.Y)) &&
-                    (point.X < (v2.X - v1.X) * (point.Y - v1.Y) / (v2.Y - v1.Y) + v1.X))
+                // Проверяем, пересекает ли горизонтальная линия, проходящая через точку, ребро многоугольника
+                if (((current.Y > point.Y) != (next.Y > point.Y)) &&
+                    (point.X < (next.X - current.X) * (point.Y - current.Y) / (next.Y - current.Y) + current.X))
                 {
                     crossings++;
                 }
             }
 
-            // Точка внутри, если количество пересечений нечётное
-            return crossings % 2 != 0;
+            // Если количество пересечений нечетное, точка внутри многоугольника, иначе снаружи.
+            bool isInside = (crossings % 2 == 1);
+            return isInside; // Если точка внутри, возвращаем true, что означает входящая точка.
         }
 
 
@@ -1006,7 +659,12 @@ namespace KGLaba4
         {
             Console.WriteLine("Notificate " + colorInner);
             List<Point> list = new List<Point>();
-            Form1.Clip(vertexs, layout.vertexs).ForEach((item) => list.Add(new Point(item.X, item.Y)));
+            Form1.ClipPolygon(vertexs, layout.vertexs).ForEach((item) => {
+                item.ForEach(point => {
+                    list.Add(new Point(point.X, point.Y));
+                    Console.WriteLine($"Point: X = {point.X}, Y = {point.Y}");
+                });
+            });
             vertexsInvisable.Add(list);
 
         }
