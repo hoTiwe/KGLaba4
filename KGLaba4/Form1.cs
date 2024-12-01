@@ -18,6 +18,8 @@ namespace KGLaba4
         private bool axesVisible = false;
         private bool gridVisible = false;
         private bool isAVid = true;
+        //private List<Point> forBVariant = new List<Point> { };
+        HashSet<Point> forBVariant = new HashSet<Point>(new PointComparer());
 
         public Form1()
         {
@@ -478,12 +480,20 @@ namespace KGLaba4
 
                     if (!need)
                     {
+                        forBVariant.Add(curre);
+                        continue;
+                    }
+                    if (forBVariant.Contains(curre))
+                    {
+                        forBVariant.Remove(curre);
                         Color existColor = bitmap.GetPixel(outline[i].X, outline[i].Y);
                         int r = existColor.R ^ layout.colorOutline.R;
                         int g = existColor.G ^ layout.colorOutline.G;
                         int b = existColor.B ^ layout.colorOutline.B;
                         int a = existColor.A ^ layout.colorOutline.A;
                         resColor = Color.FromArgb(r, g, b, a);
+                        graphics.FillRectangle(new SolidBrush(resColor), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
+
                     }
                     graphics.FillRectangle(new SolidBrush(resColor), (outline[i].X + offsetX) * scale, (outline[i].Y + offsetY) * scale, scale, scale);
 
@@ -491,11 +501,20 @@ namespace KGLaba4
 
                 for (int i = 0; i < inner.Count(); i++)
                 {
+                    Point curre = inner[i];
                     Color resColor = layout.colorInner;
                     if (!(PnPoly(layout.visable, inner[i]))) { continue; }
                     if (!needVisable(layout, inner[i])) 
                     {
-                        resColor = Color.FromArgb(resColor.R, resColor.G, resColor.B, resColor.A/3);
+                        forBVariant.Add(curre);
+                        continue;
+                    }
+                    if (forBVariant.Contains(curre))
+                    {
+                        forBVariant.Remove(curre);
+                        resColor = Color.FromArgb(resColor.R, resColor.G, resColor.B, resColor.A / 2);
+                        graphics.FillRectangle(new SolidBrush(resColor), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
+
                     }
                     graphics.FillRectangle(new SolidBrush(resColor), (inner[i].X + offsetX) * scale, (inner[i].Y + offsetY) * scale, scale, scale);
                 }
@@ -1018,5 +1037,23 @@ namespace KGLaba4
         }
 
     }
+
+    public class PointComparer : IEqualityComparer<Point>
+    {
+        public bool Equals(Point p1, Point p2)
+        {
+            if (p1 == null && p2 == null) return true;
+            if (p1 == null || p2 == null) return false;
+
+            return p1.X == p2.X && p1.Y == p2.Y;
+        }
+
+        public int GetHashCode(Point point)
+        {
+            // ”никальный хэш-код дл€ точки на основе координат
+            return point.X.GetHashCode() ^ point.Y.GetHashCode();
+        }
+    }
+
 
 }
